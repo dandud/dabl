@@ -3,5 +3,5 @@
 * created database design 
 * developed models and html for overview
 
-
+![database design](docs/screenshots/20211017_database design.png)
 
