@@ -10,3 +10,11 @@ Reposity for dabl a web application built using the Python and the Flask web fra
 * Provide way to input batch information and display current status
 * Provide a way to add record of measurements (specific gravity, temperature, etc.) and actions (racking, degassing, additions, etc.) and associate with specific batches
 * Provide method to view a batch and its associate measurements and actions
+
+
+----
+General Notes 
+* I have scripted in python before, but I have never utilized flask and have limited experience in web design. That being said, please offer any sugestions you have.
+* For the base application template I am pulling heavily from the [sample application](https://github.com/miguelgrinberg/flasky) that accompanies Miguel Grinberg's Flask Web Development Second Edition.
+
+[Dev Log](docs/devlog.md)
