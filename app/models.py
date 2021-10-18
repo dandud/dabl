@@ -64,6 +64,9 @@ class Batch(db.Model):
     status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    type = db.relationship('Brewtype')
+    style = db.relationship('Brewstyle')
+    status = db.relationship('Status')
 
 class Measurement(db.Model):
     __tablename__ = 'measurements'

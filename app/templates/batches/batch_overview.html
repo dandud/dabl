@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}DABL{% endblock %}
+
+{% block page_content %}
+<div class="container">
+    <div class="row mt-5">
+      <div class="col-6 offset-3">
+        <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Batches</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% if all_batches|length > 0 %}
+                          {% for batch in all_batches %}
+                          <tr>
+                            <td>{{ batch.batch_id }}</td>
+                            <td>{{ batch.added_time }}</td>
+                            <td><div class="btn-group" role="group" aria-label="Task Actions">
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-primary" href="{{ url_for('batches.view_batch', id=batch.id) }}">View</a>
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('batches.edit_batch', id=batch.id) }}">Edit</a>
+                            </div>
+                          </td>
+                          </tr>
+                          {% endfor %}
+                        {% else %}
+                          <tr>
+                            <td>No Batches Added. Please <a href="{{ url_for('batches.add_batch')}}">add a batch</a></td><td></td>
+                          </tr>
+                        {% endif %}
+                      </tbody>
+                    </table>
+      </div>
+    </div>
+  </div>
+{{ wtf.quick_form(form) }}
+{% endblock %}
