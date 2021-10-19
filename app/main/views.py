@@ -49,4 +49,4 @@ def batch_view(name):
         return redirect(url_for("batches.all_batches"))
 
     return render_template('batch_view.html',
-                           batch=_batch, measurements = _measurements)
+                           batch=_batch, measurements=_measurements)
