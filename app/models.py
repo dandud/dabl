@@ -76,6 +76,8 @@ class Measurement(db.Model):
     measurementtype_id = db.Column(db.Integer, db.ForeignKey('measurementtypes.id'))
     value = db.Column(db.Float)
 
+    batch = db.relationship('Batch')
+    measurmenttype_rel = db.relationship('Measurementtype')
 
 class Measurementtype(db.Model):
     __tablename__ = 'measurementtypes'

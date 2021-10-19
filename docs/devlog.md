@@ -5,3 +5,9 @@
 
 ![database design](docs/screenshots/20211017_database design.png)
 
+### **2021.10.18** ###
+* created view batch view and route
+* created html page to show simple batch data and started steps to pull measurements
+* updated batch overview page to link to new batch data view page
+* setup route to batch data view to use batch name a variable to the route
+* issues with pulling measurement names and enginering units from relationship, unresolved
