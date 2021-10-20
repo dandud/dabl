@@ -1,6 +1,6 @@
 from flask import render_template, session, redirect, url_for, current_app
 from .. import db
-from ..models import Measurement, User, Batch
+from ..models import Measurement, User, Batch, Action
 from ..email import send_email
 from . import main, batches
 from .forms import NameForm
@@ -41,12 +41,13 @@ def all_batches():
 @batches.route('/batch_view/<name>', methods=['GET', 'POST'])
 def batch_view(name):
     _batch = Batch.query.filter_by(name=name).first()
-    print(_batch.id)
     _measurements = Measurement.query.filter_by(batch_id=_batch.id).all()
-    print(_measurements)
+    _actions = Action.query.filter_by(batch_id=_batch.id).all()
     if not _batch:
         #flash('Oops! Something went wrong!.', 'danger')
         return redirect(url_for("batches.all_batches"))
 
     return render_template('batch_view.html',
-                           batch=_batch, measurements=_measurements)
+                           batch=_batch, 
+                           measurements=_measurements,
+                           actions=_actions)

@@ -68,6 +68,7 @@ class Batch(db.Model):
     style = db.relationship('Brewstyle')
     status = db.relationship('Status')
 
+
 class Measurement(db.Model):
     __tablename__ = 'measurements'
     id = db.Column(db.Integer, primary_key = True)
@@ -79,8 +80,52 @@ class Measurement(db.Model):
     batch = db.relationship('Batch')
     measurmenttype_rel = db.relationship('Measurementtype')
 
+
 class Measurementtype(db.Model):
     __tablename__ = 'measurementtypes'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
     eng_units = db.Column(db.String(32))
+
+
+class Action(db.Model):
+    __tablename__ = 'actions'
+    id = db.Column(db.Integer, primary_key = True)
+    batch_id = db.Column(db.Integer, db.ForeignKey('batches.id'))
+    time_performed = db.Column(db.DateTime)
+    actiontype_id = db.Column(db.Integer, db.ForeignKey('actiontypes.id'))
+    value = db.Column(db.Float)
+
+    batch = db.relationship('Batch')
+    actiontype_rel = db.relationship('Actiontype')
+
+
+class Actiontype(db.Model):
+    __tablename__ = 'actiontypes'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(32))
+
+
+class Component(db.Model):
+    __tablename__ = 'components'
+    id = db.Column(db.Integer, primary_key = True)
+    batch_id = db.Column(db.Integer, db.ForeignKey('batches.id'))
+    componentclass_id = db.Column(db.Integer, db.ForeignKey('componentclasses.id'))
+    componenttype_id = db.Column(db.Integer, db.ForeignKey('componenttypes.id'))
+    value = db.Column(db.Float)
+
+    batch = db.relationship('Batch')
+    componentclass_rel = db.relationship('Componentclass')
+    componenttype_rel = db.relationship('Componenttype')
+
+
+class Componentclass(db.Model):
+    __tablename__ = 'componentclasses'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(32))
+
+
+class Componenttype(db.Model):
+    __tablename__ = 'componenttypes'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(32))

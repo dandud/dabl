@@ -11,7 +11,7 @@
                       <thead>
                         <tr>
                           <th>Batches</th>
-                          <th>Start Time</th>
+                          <th>Start Date</th>
                           <th>Type</th>
                           <th>Style</th>
                           <th>Status</th>
@@ -23,7 +23,7 @@
                           {% for batch in all_batches %}
                           <tr>
                             <td>{{ batch.name }}</td>
-                            <td>{{ batch.time_start }}</td>
+                            <td>{{ batch.time_start.strftime('%Y-%m-%d') }}</td>
                             <td>{{ batch.type.name }}</td>
                             <td>{{ batch.style.name }}</td>
                             <td>{{ batch.status.name }}</td>

@@ -10,4 +10,8 @@
 * created html page to show simple batch data and started steps to pull measurements
 * updated batch overview page to link to new batch data view page
 * setup route to batch data view to use batch name a variable to the route
-* issues with pulling measurement names and enginering units from relationship, unresolved
+
+### **2021.10.19** ###
+* added more models to database for actions and components
+* updated db with new migration script
+* added actions view batch page
