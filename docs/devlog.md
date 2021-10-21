@@ -15,3 +15,7 @@
 * added more models to database for actions and components
 * updated db with new migration script
 * added actions view batch page
+
+### **2021.10.19** ###
+* created route for adding action and form
+* need to add date picker and dropdown for action to form
