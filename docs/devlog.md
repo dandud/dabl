@@ -16,6 +16,6 @@
 * updated db with new migration script
 * added actions view batch page
 
-### **2021.10.19** ###
+### **2021.10.20** ###
 * created route for adding action and form
 * need to add date picker and dropdown for action to form
