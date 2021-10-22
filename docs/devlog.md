@@ -19,3 +19,9 @@
 ### **2021.10.20** ###
 * created route for adding action and form
 * need to add date picker and dropdown for action to form
+
+### **2021.10.21** ###
+* updated action form to prepopulate with data
+* added drop down for action type
+* created measurement route and form (similar to action form)
+* confirmed functionality of database writes of measurement and action form

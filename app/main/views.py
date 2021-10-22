@@ -1,9 +1,10 @@
 from flask import render_template, session, redirect, url_for, current_app
 from .. import db
-from ..models import Measurement, User, Batch, Action
+from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype
 from ..email import send_email
-from . import main, batches, actions
-from .forms import NameForm, ActionAddForm
+from . import main, batches, actions, measurements
+from .forms import NameForm, ActionAddForm, MeasurementAddForm
+from datetime import datetime
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -60,6 +61,11 @@ def action_add(batch_name):
     print (_batch)
     #_action.batch = _batch.name
     _action.batch_id = _batch.id
+    
+    time_now = datetime.now()
+    form.time_performed.data = time_now
+
+    form.actiontype_id.choices = [(row.id, row.name) for row in Actiontype.query.all()]
 
     if form.validate_on_submit():
         print(_action.batch , _action.batch_id , _action.actiontype_id , _action.time_performed)
@@ -75,3 +81,30 @@ def action_add(batch_name):
     return render_template('action_add.html',
                            form=form,
                            action=_action)
+
+
+@measurements.route('/measurement_add/<batch_name>', methods=['GET', 'POST'])
+def measurement_add(batch_name):
+    form = MeasurementAddForm()
+    _measurement = Measurement()
+    _batch = Batch.query.filter_by(name=batch_name).first()
+
+    _measurement.batch_id = _batch.id
+    
+    time_now = datetime.now()
+    form.time_measured.data = time_now
+
+    form.measurementtype_id.choices = [(row.id, row.name) for row in Measurementtype.query.all()]
+
+    if form.validate_on_submit():
+        form.populate_obj(_measurement)
+        db.session.add(_measurement)
+        db.session.commit()
+
+        db.session.refresh(_measurement)
+        #flash('Your task is added successfully!', 'success')
+        return redirect(url_for("batches.batch_view", name = _batch.name))
+    
+    return render_template('measurement_add.html',
+                           form=form,
+                           measurement=_measurement)

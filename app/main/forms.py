@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, IntegerField, DateTimeField
+from wtforms import StringField, SubmitField, TextAreaField, IntegerField, DateTimeField, SelectField, DecimalField
 from wtforms.validators import DataRequired, Required, Length
 from wtforms.fields.html5 import DateField
 
@@ -8,8 +8,13 @@ class NameForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class ActionAddForm(FlaskForm):
-    #batch = TextAreaField(u'Your Batch', [Required(), Length(1, 32)])
-    time_performed = DateTimeField(u'Performed Datetime', [Required()])
-    actiontype_id = IntegerField(u'Type', [Required()]) 
-
+    time_performed = DateTimeField(u'Performed Timestpamp', [Required()])
+    actiontype_id = SelectField(u'Action Type', [Required()])
     submit = SubmitField(u'Save Action')
+
+
+class MeasurementAddForm(FlaskForm):
+    time_measured = DateTimeField(u'Measurement Timestamp', [Required()])
+    measurementtype_id = SelectField(u'Measurment Type', [Required()])
+    value = DecimalField(u'Measured Value', [Required()])
+    submit = SubmitField(u'Save Measurement')

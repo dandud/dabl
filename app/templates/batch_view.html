@@ -45,7 +45,8 @@
   </div>
 </div>
 
-<h2 class="h2"><b>Actions</b></h2> 
+<h2 class="h2"><b>Actions</b></h2>  
+<a id="Enter" type="button" href="{{ url_for('actions.action_add', batch_name=batch.name) }}" class="btn btn-primary">Add Action</a>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -57,7 +58,7 @@
     {% if actions|length > 0 %}
       {% for action in actions %}
       <tr>
-        <td>{{ action.time_performed }}</td>
+        <td>{{ action.time_performed.strftime('%Y-%m-%d %H:%M:%S') }}</td>
         <td>{{action.actiontype_rel.name }}</td>
       </tr>
       {% endfor %}
@@ -70,6 +71,7 @@
 </table>
 
 <h2 class="h2"><b>Measurements</b></h2> 
+<a id="Enter" type="button" href="{{ url_for('measurements.measurement_add', batch_name=batch.name) }}" class="btn btn-primary">Add Measurement</a>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -82,7 +84,7 @@
     {% if measurements|length > 0 %}
       {% for measurement in measurements %}
       <tr>
-        <td>{{ measurement.time_measured }}</td>
+        <td>{{ measurement.time_measured.strftime('%Y-%m-%d %H:%M:%S') }}</td>
         <td>{{ measurement.measurmenttype_rel.name }}</td>
         <td>{{ measurement.value }} {{ measurement.measurmenttype_rel.eng_units }}</td>
       </tr>
