@@ -7,6 +7,7 @@ class NameForm(FlaskForm):
     name = StringField('Ready to Go?', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+
 class ActionAddForm(FlaskForm):
     time_performed = DateTimeField(u'Performed Timestpamp', [Required()])
     actiontype_id = SelectField(u'Action Type', [Required()])
@@ -18,3 +19,11 @@ class MeasurementAddForm(FlaskForm):
     measurementtype_id = SelectField(u'Measurment Type', [Required()])
     value = DecimalField(u'Measured Value', [Required()])
     submit = SubmitField(u'Save Measurement')
+
+
+class BatchAddForm(FlaskForm):
+    name = StringField(u'Batch Name', [Required()])
+    type_id = SelectField(u'Type', [Required()])
+    style_id = SelectField(u'Style', [Required()])
+    time_start = DateTimeField(u'Start Time', [Required()])
+    submit = SubmitField(u'Create Batch')

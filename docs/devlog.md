@@ -25,3 +25,7 @@
 * added drop down for action type
 * created measurement route and form (similar to action form)
 * confirmed functionality of database writes of measurement and action form
+
+### **2021.10.22** ###
+* created add batch form and associated components
+* experimented with timeline object

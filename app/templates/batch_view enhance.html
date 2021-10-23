@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}DABL{% endblock %}
+
+{% block page_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='timeline.css') }}">
+<h1 class="h1"><b>Batch {{ batch.name }}</b></h1> 
+
+<div class="card">
+  <div class="card-body">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td><b>Type:</b></td>
+          <td>{{ batch.type.name }}</td>
+        </tr>
+        <tr>
+          <td><b>Style:</b></td>
+          <td>{{ batch.style.name }}</td>
+        </tr>
+          <td><b>Status:</b></td>
+          <td>{{ batch.status.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td><b>Start Date:</b></td>
+          <td>{{ batch.time_start.strftime('%Y-%m-%d') }}</td>
+        </tr>
+        <tr>
+          <td><b>End Date:</b></td>
+          <td>{{ batch.time_end.strftime('%Y-%m-%d') }}</td>
+        </tr>
+          <td><b>Last Updated:</b></td>
+          <td>{{ batch.time_updated }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2 class="h2"><b>Actions</b></h2>  
+<a id="Enter" type="button" href="{{ url_for('actions.action_add', batch_name=batch.name) }}" class="btn btn-primary">Add Action</a>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Action Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if actions|length > 0 %}
+      {% for action in actions %}
+      <tr>
+        <td>{{ action.time_performed.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>{{action.actiontype_rel.name }}</td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td>No Actions Added.</td><td></td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<h2 class="h2"><b>Measurements</b></h2> 
+<a id="Enter" type="button" href="{{ url_for('measurements.measurement_add', batch_name=batch.name) }}" class="btn btn-primary">Add Measurement</a>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Measurement Type</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if measurements|length > 0 %}
+      {% for measurement in measurements %}
+      <tr>
+        <td>{{ measurement.time_measured.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>{{ measurement.measurmenttype_rel.name }}</td>
+        <td>{{ measurement.value }} {{ measurement.measurmenttype_rel.eng_units }}</td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td>No Measurements Added.</td><td></td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+<div class="page-content page-container" id="page-content">
+  <div class="padding">
+      <div class="row">
+          <div class="col-lg-6">
+                        {% if measurements|length > 0 %}
+                          {% for measurement in measurements %}
+                          <div class="tl-item">
+                            <div class="tl-dot b-primary"></div>
+                            <div class="tl-content">
+                                <div class="">{{ measurement.measurmenttype_rel.name }} {{ measurement.value }} {{ measurement.measurmenttype_rel.eng_units }}</div>
+                                <div class="tl-date text-muted mt-1">{{ measurement.time_measured.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+                            </div>
+                          </div>  
+                        {% endfor %}
+                        {% else %}
+                            <p>No Batches Added. Please <a href="{{ url_for('batches.add_batch')}}">add a batch</a></p>
+                        {% endif %}
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

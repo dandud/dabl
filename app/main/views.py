@@ -1,9 +1,9 @@
 from flask import render_template, session, redirect, url_for, current_app
 from .. import db
-from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype
+from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype, Brewtype, Brewstyle
 from ..email import send_email
 from . import main, batches, actions, measurements
-from .forms import NameForm, ActionAddForm, MeasurementAddForm
+from .forms import NameForm, ActionAddForm, MeasurementAddForm, BatchAddForm
 from datetime import datetime
 
 
@@ -38,6 +38,34 @@ def all_batches():
                            all_batches=_all_batches)
 
 
+@batches.route('/batch_add', methods=['GET', 'POST'])
+def batch_add():
+    form = BatchAddForm()
+    _batch = Batch()
+  
+    time_now = datetime.now()
+    form.time_start.data = time_now
+
+    form.type_id.choices = [(row.id, row.name) for row in Brewtype.query.all()]
+    form.style_id.choices = [(row.id, row.name) for row in Brewstyle.query.all()]
+
+
+    if form.validate_on_submit():
+        _batch.time_updated = time_now
+        _batch.status_id = 1000
+        form.populate_obj(_batch)
+        db.session.add(_batch)
+        db.session.commit()
+
+        db.session.refresh(_batch)
+        #flash('Your task is added successfully!', 'success')
+        return redirect(url_for("batches.all_batches"))
+    
+    return render_template('batch_add.html',
+                           form=form,
+                           batch=_batch)
+
+
 @batches.route('/batch_view/<name>', methods=['GET', 'POST'])
 def batch_view(name):
     _batch = Batch.query.filter_by(name=name).first()
@@ -59,7 +87,6 @@ def action_add(batch_name):
     _action = Action()
     _batch = Batch.query.filter_by(name=batch_name).first()
     print (_batch)
-    #_action.batch = _batch.name
     _action.batch_id = _batch.id
     
     time_now = datetime.now()
@@ -68,9 +95,7 @@ def action_add(batch_name):
     form.actiontype_id.choices = [(row.id, row.name) for row in Actiontype.query.all()]
 
     if form.validate_on_submit():
-        print(_action.batch , _action.batch_id , _action.actiontype_id , _action.time_performed)
         form.populate_obj(_action)
-        print(_action.batch , _action.batch_id , _action.actiontype_id , _action.time_performed)
         db.session.add(_action)
         db.session.commit()
 
