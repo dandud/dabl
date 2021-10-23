@@ -28,4 +28,9 @@
 
 ### **2021.10.22** ###
 * created add batch form and associated components
-* experimented with timeline object
+* experimented with timeline [object](https://bbbootstrap.com/snippets/basic-timeline-for-users-without-avatar-37843493)
+
+### **2021.10.23** ###
+* created edit batch from and associated components 
+* updated overview edit button to link to new form
+* added and experimented with [Flask-QRcode library](https://marcoagner.github.io/Flask-QRcode/)

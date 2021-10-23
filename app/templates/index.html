@@ -4,11 +4,17 @@
 {% block title %}DABL{% endblock %}
 
 {% block page_content %}
+
 <div class="page-header">
     <h1>Hello, are you ready to DABL?</h1>
     <a id="Enter" type="button" href="{{ url_for('batches.all_batches') }}" class="btn btn-primary">YES</a>
     <a id="Enter" type="button" href="{{ url_for('batches.all_batches') }}" class="btn btn-danger">NO</a>
 
 </div>
+
 {{ wtf.quick_form(form) }}
+
+<p>Test QR</p>
+<img src="{{ qrcode("DABL") }}">
+
 {% endblock %}

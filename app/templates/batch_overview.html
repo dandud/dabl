@@ -4,6 +4,7 @@
 {% block title %}DABL{% endblock %}
 
 {% block page_content %}
+<a id="btn_batch_add" type="button" href="{{ url_for('batches.batch_add') }}" class="btn btn-primary">Add Batch</a>
 <div class="container">
     <div class="row mt-5">
       <div class="col-6 offset-3">
@@ -29,7 +30,7 @@
                             <td>{{ batch.status.name }}</td>
                             <td><div class="btn-group" role="group" aria-label="Task Actions">
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-primary" href="{{ url_for('batches.batch_view', name=batch.name) }}">View</a>
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('batches.batch_view', name=batch.name) }}">Edit</a>
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('batches.batch_edit', batch_name=batch.name) }}">Edit</a>
                             </div>
                           </td>
                           </tr>
