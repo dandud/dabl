@@ -1,10 +1,11 @@
-from flask import render_template, session, redirect, url_for, current_app
+from flask import render_template, session, redirect, url_for, current_app, flash
 from .. import db
 from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype, Brewtype, Brewstyle, Status
 from ..email import send_email
 from . import main, batches, actions, measurements
 from .forms import NameForm, ActionAddForm, MeasurementAddForm, BatchAddForm, BatchEditForm
 from datetime import datetime
+
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -58,7 +59,7 @@ def batch_add():
         db.session.commit()
 
         db.session.refresh(_batch)
-        #flash('Your task is added successfully!', 'success')
+        flash('Batch added.', 'success')
         return redirect(url_for("batches.all_batches"))
     
     return render_template('batch_add.html',
@@ -85,7 +86,7 @@ def batch_edit(batch_name):
         db.session.commit()
 
         db.session.refresh(_batch)
-        #flash('Batch updated successfully!', 'success')
+        flash('Batch updated.', 'success')
         return redirect(url_for("batches.all_batches"))
     
     return render_template('batch_edit.html',
@@ -99,7 +100,7 @@ def batch_view(name):
     _measurements = Measurement.query.filter_by(batch_id=_batch.id).all()
     _actions = Action.query.filter_by(batch_id=_batch.id).all()
     if not _batch:
-        #flash('Oops! Something went wrong!.', 'danger')
+        flash('Oops! Something went wrong!.', 'danger')
         return redirect(url_for("batches.all_batches"))
 
     return render_template('batch_view.html',
@@ -127,7 +128,7 @@ def action_add(batch_name):
         db.session.commit()
 
         db.session.refresh(_action)
-        #flash('Your task is added successfully!', 'success')
+        flash('Action added.', 'success')
         return redirect(url_for("batches.batch_view", name = _batch.name))
     
     return render_template('action_add.html',
@@ -154,7 +155,7 @@ def measurement_add(batch_name):
         db.session.commit()
 
         db.session.refresh(_measurement)
-        #flash('Your task is added successfully!', 'success')
+        flash('Measurement added.', 'success')
         return redirect(url_for("batches.batch_view", name = _batch.name))
     
     return render_template('measurement_add.html',
