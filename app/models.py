@@ -50,6 +50,7 @@ class Status(db.Model):
     __tablename__ = 'statuses'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
+    type = db.Column(db.String(32))
 
 
 class Batch(db.Model):
@@ -129,3 +130,34 @@ class Componenttype(db.Model):
     __tablename__ = 'componenttypes'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
+
+
+class Location(db.Model):
+    __tablename__ = 'locations'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(32))
+
+
+class Containertype(db.Model):
+    __tablename__ = 'containertypes'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(32))
+    volume_max = db.Column(db.Float)
+
+
+class Container(db.Model):
+    __tablename__ = 'containers'
+    id = db.Column(db.Integer, primary_key = True)
+    batch_id = db.Column(db.Integer, db.ForeignKey('batches.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
+    type_id = db.Column(db.Integer, db.ForeignKey('containertypes.id'))
+    status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
+    name = db.Column(db.String(32))
+    volume_actual = db.Column(db.Float)
+    is_vessel = db.Column(db.Boolean)
+    time_created = db.Column(db.DateTime)
+
+    batch = db.relationship('Batch')
+    status = db.relationship('Status')
+    location = db.relationship('Location')
+    containertype_rel = db.relationship('Containertype')

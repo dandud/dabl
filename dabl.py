@@ -3,7 +3,7 @@ from datetime import datetime
 import click
 from flask_migrate import Migrate
 from app import create_app, db
-from app.models import User, Role, Batch, Measurement, Action
+from app.models import *
 from flask_qrcode import QRcode
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')

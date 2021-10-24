@@ -36,5 +36,8 @@ def create_app(config_name):
     from .main import measurements as measurements_blueprint
     app.register_blueprint(measurements_blueprint)
 
+    from .containers import containers as containers_blueprint
+    app.register_blueprint(containers_blueprint)
+
     return app
 

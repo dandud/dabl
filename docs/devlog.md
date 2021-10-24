@@ -34,3 +34,7 @@
 * created edit batch from and associated components 
 * updated overview edit button to link to new form
 * added and experimented with [Flask-QRcode library](https://marcoagner.github.io/Flask-QRcode/)
+
+### **2021.10.24** ###
+* add containers to models and migrate db
+* created add container route and form in subfolder
