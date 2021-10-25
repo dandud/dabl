@@ -77,7 +77,7 @@ def batch_edit(batch_name):
 
     form.type_id.choices = [(row.id, row.name) for row in Brewtype.query.all()]
     form.style_id.choices = [(row.id, row.name) for row in Brewstyle.query.all()]
-    form.status_id.choices = [(row.id, row.name) for row in Status.query.all()]
+    form.status_id.choices = [(row.id, row.name) for row in Status.query.filter_by(type='Batch').all()]
 
     if form.validate_on_submit():
         _batch.time_updated = time_now

@@ -143,6 +143,7 @@ class Containertype(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
     volume_max = db.Column(db.Float)
+    is_vessel = db.Column(db.Boolean)
 
 
 class Container(db.Model):
@@ -150,11 +151,10 @@ class Container(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     batch_id = db.Column(db.Integer, db.ForeignKey('batches.id'))
     location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
-    type_id = db.Column(db.Integer, db.ForeignKey('containertypes.id'))
+    containertype_id = db.Column(db.Integer, db.ForeignKey('containertypes.id'))
     status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
     name = db.Column(db.String(32))
     volume_actual = db.Column(db.Float)
-    is_vessel = db.Column(db.Boolean)
     time_created = db.Column(db.DateTime)
 
     batch = db.relationship('Batch')

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}DABL{% endblock %}
+
+{% block page_content %}
+<a id="btn_batch_add" type="button" href="{{ url_for('containers.container_add') }}" class="btn btn-primary">Add Vessel</a>
+<div class="container">
+    <div class="row mt-5">
+      <div class="col-6 offset-3">
+        <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Batches</th>
+                          <th>Start Date</th>
+                          <th>Type</th>
+                          <th>Style</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% if all_vessels|length > 0 %}
+                          {% for vessel in all_vessels %}
+                          <tr>
+                            <td>{{ vessel.name }}</td>
+                            <td>{{ vessel.name }}</td>
+                            <td>{{ vessel.name }}</td>
+                            <td>{{ vessel.name }}</td>
+                            <td>{{ vessel.name }}</td>
+                            <td><div class="btn-group" role="group" aria-label="Task Actions">
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-primary" href="{{ url_for('containers.container_add') }}">View</a>
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.container_add') }}">Edit</a>
+                            </div>
+                          </td>
+                          </tr>
+                          {% endfor %}
+                        {% else %}
+                          <tr>
+                            <td>No Vessels Added. Please <a href="{{ url_for('containers.container_add')}}">add a vessel</a></td><td></td>
+                          </tr>
+                        {% endif %}
+                      </tbody>
+                    </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

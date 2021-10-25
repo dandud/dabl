@@ -4,6 +4,15 @@ from ..models import Container, Containertype
 from . import containers
 from .forms import ContainerAddForm
 
+@containers.route('/vessel_overview', methods=['GET', 'POST'])
+def all_vessels():
+    #User.query.join(User.spaces).filter(User.username=='Bob', Space.name=='Mainspace').first()
+    _all_vessels = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True)).all()
+    #_all_vessels = Container.query.filter(Container.containertype_rel.has(Containertype.is_vessel.is_(True))).all()
+    print(_all_vessels)
+    return render_template('containers/vessel_overview.html',
+                           all_vessels=_all_vessels)
+
 @containers.route('/container_add', methods=['GET', 'POST'])
 def container_add():
     form = ContainerAddForm()
