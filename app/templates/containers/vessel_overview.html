@@ -11,11 +11,11 @@
         <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>Batches</th>
-                          <th>Start Date</th>
+                          <th>Name</th>
                           <th>Type</th>
-                          <th>Style</th>
+                          <th>Volume</th>
                           <th>Status</th>
+                          <th>Batch</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -24,11 +24,11 @@
                           {% for vessel in all_vessels %}
                           <tr>
                             <td>{{ vessel.name }}</td>
-                            <td>{{ vessel.name }}</td>
-                            <td>{{ vessel.name }}</td>
-                            <td>{{ vessel.name }}</td>
-                            <td>{{ vessel.name }}</td>
-                            <td><div class="btn-group" role="group" aria-label="Task Actions">
+                            <td>{{ vessel.containertype_rel.name }}</td>
+                            <td>{{ vessel.containertype_rel.volume_max }} gal</td>
+                            <td>{{ vessel.status.name }}</td>
+                            <td>{{ vessel.batch.name }}</td>
+                            <td><div class="btn-group" role="group" aria-label="Actions">
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-primary" href="{{ url_for('containers.container_add') }}">View</a>
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.container_add') }}">Edit</a>
                             </div>
