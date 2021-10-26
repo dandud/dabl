@@ -39,3 +39,6 @@
 * add containers to models and migrate db
 * created add container route and form in subfolder
 * create route for view vessel and start vessel overview
+
+### **2021.10.25** ###
+* add containers batch view page and route

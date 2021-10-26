@@ -1,6 +1,6 @@
 from flask import render_template, session, redirect, url_for, current_app, flash
 from .. import db
-from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype, Brewtype, Brewstyle, Status
+from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype, Brewtype, Brewstyle, Status, Container, Containertype
 from ..email import send_email
 from . import main, batches, actions, measurements
 from .forms import NameForm, ActionAddForm, MeasurementAddForm, BatchAddForm, BatchEditForm
@@ -99,6 +99,10 @@ def batch_view(name):
     _batch = Batch.query.filter_by(name=name).first()
     _measurements = Measurement.query.filter_by(batch_id=_batch.id).all()
     _actions = Action.query.filter_by(batch_id=_batch.id).all()
+    _containers = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True), Container.batch_id==_batch.id).first()
+    
+    print(_containers)
+
     if not _batch:
         flash('Oops! Something went wrong!.', 'danger')
         return redirect(url_for("batches.all_batches"))
@@ -106,7 +110,8 @@ def batch_view(name):
     return render_template('batch_view.html',
                            batch=_batch, 
                            measurements=_measurements,
-                           actions=_actions)
+                           actions=_actions,
+                           containers=_containers)
 
 
 @actions.route('/action_add/<batch_name>', methods=['GET', 'POST'])

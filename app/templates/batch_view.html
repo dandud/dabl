@@ -50,6 +50,25 @@
     </table>
   </div>
 </div>
+<div class="card">
+  <div class="card-body">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td><b>Container</b></td>
+          <td>{{ containers.name }}</td>
+        </tr>
+        <tr>
+          <td><b>End Date:</b></td>
+          <td>{{ containers.id }}</td>
+        </tr>
+          <td><b>Last Updated:</b></td>
+          <td>{{ batch.time_updated.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <h2 class="h2"><b>Actions</b></h2>  
 <a id="btn_action_add" type="button" href="{{ url_for('actions.action_add', batch_name=batch.name) }}" class="btn btn-primary">Add Action</a>
