@@ -42,3 +42,8 @@
 
 ### **2021.10.25** ###
 * add containers batch view page and route
+
+### **2021.10.26** ###
+* added vessel lookup route to view current batch based on vessel id
+* added vessel label route to generate QR Code label for designated container 
+* added view lable links to vessel overview

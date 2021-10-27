@@ -30,7 +30,7 @@
                             <td>{{ vessel.batch.name }}</td>
                             <td><div class="btn-group" role="group" aria-label="Actions">
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-primary" href="{{ url_for('containers.container_add') }}">View</a>
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.container_add') }}">Edit</a>
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.vessel_label', container_id=vessel.id) }}">Label</a>
                             </div>
                           </td>
                           </tr>
