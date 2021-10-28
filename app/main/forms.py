@@ -36,3 +36,13 @@ class BatchEditForm(FlaskForm):
     time_start = DateTimeField(u'Start Time', [Required()], render_kw={'readonly': True})
     status_id = SelectField(u'Status', [Required()])
     submit = SubmitField(u'Save Changes')
+
+
+class BatchMoveForm(FlaskForm):
+    name = StringField(u'Batch Name', [Required()], render_kw={'readonly': True})
+    type_id = SelectField(u'Type', [Required()], render_kw={'readonly': True})
+    style_id = SelectField(u'Style', [Required()], render_kw={'readonly': True})
+    time_start = DateTimeField(u'Start Time', [Required()], render_kw={'readonly': True})
+    status_id = SelectField(u'Status', [Required()])
+    
+    submit = SubmitField(u'Save Changes')

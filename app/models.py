@@ -1,5 +1,7 @@
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
+
 
 
 class Role(db.Model):
@@ -68,6 +70,12 @@ class Batch(db.Model):
     type = db.relationship('Brewtype')
     style = db.relationship('Brewstyle')
     status = db.relationship('Status')
+
+    def get_age(self):
+        if self.time_start:
+            now = datetime.now()
+            age = now - self.time_start
+            return str(age.days)
 
 
 class Measurement(db.Model):

@@ -47,3 +47,8 @@
 * added vessel lookup route to view current batch based on vessel id
 * added vessel label route to generate QR Code label for designated container 
 * added view lable links to vessel overview
+
+### **2021.10.27** ###
+* added age since start to model, need to investigate how to determine brew length and show with total age
+* started work on form to move batch to different container
+* added view lable links to vessel overview

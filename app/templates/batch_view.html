@@ -63,7 +63,7 @@
           <td>{{ containers.id }}</td>
         </tr>
           <td><b>Last Updated:</b></td>
-          <td>{{ batch.time_updated.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+          <td>{{ batch.get_age()}}</td>
         </tr>
       </tbody>
     </table>

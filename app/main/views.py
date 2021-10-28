@@ -3,7 +3,7 @@ from .. import db
 from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype, Brewtype, Brewstyle, Status, Container, Containertype
 from ..email import send_email
 from . import main, batches, actions, measurements
-from .forms import NameForm, ActionAddForm, MeasurementAddForm, BatchAddForm, BatchEditForm
+from .forms import NameForm, ActionAddForm, MeasurementAddForm, BatchAddForm, BatchEditForm, BatchMoveForm
 from datetime import datetime
 
 
@@ -63,6 +63,37 @@ def batch_add():
         return redirect(url_for("batches.all_batches"))
     
     return render_template('batch_add.html',
+                           form=form,
+                           batch=_batch)
+
+
+@batches.route('/batch_move/<batch_name>', methods=['GET', 'POST'])
+def batch_move(batch_name):
+    _batch = Batch.query.filter_by(name=batch_name).first()
+    _vessels = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True), Container.batch_id==_batch.id).all
+    _all_vessels = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True)).all()
+
+
+    form = BatchMoveForm(obj=_batch)
+
+    time_now = datetime.now()
+
+    form.type_id.choices = [(row.id, row.name) for row in Brewtype.query.all()]
+    form.style_id.choices = [(row.id, row.name) for row in Brewstyle.query.all()]
+    form.status_id.choices = [(row.id, row.name) for row in Status.query.filter_by(type='Batch').all()]
+    form.status_id.choices = [(row.id, row.name) for row in Status.query.filter_by(type='Batch').all()]
+
+    if form.validate_on_submit():
+        _batch.time_updated = time_now
+        form.populate_obj(_batch)
+        db.session.add(_batch)
+        db.session.commit()
+
+        db.session.refresh(_batch)
+        flash('Batch updated.', 'success')
+        return redirect(url_for("batches.all_batches"))
+    
+    return render_template('batch_move.html',
                            form=form,
                            batch=_batch)
 
