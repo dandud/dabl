@@ -43,6 +43,11 @@
             {% endif %}
           </td>
         </tr>
+        <tr>
+          <td><b>Batch Age:</b></td>
+          <td>{{ batch.get_age()}} days</td>
+        </tr>
+        <tr>
           <td><b>Last Updated:</b></td>
           <td>{{ batch.time_updated.strftime('%Y-%m-%d %H:%M:%S')}}</td>
         </tr>
@@ -56,14 +61,10 @@
       <tbody>
         <tr>
           <td><b>Container</b></td>
-          <td>{{ containers.name }}</td>
+          <td>{{ containers.name }} - <a href="{{ url_for('containers.vessel_move_contents', container_id=containers.id) }}"> Move Contents</a></td>
         </tr>
-        <tr>
-          <td><b>End Date:</b></td>
-          <td>{{ containers.id }}</td>
-        </tr>
-          <td><b>Last Updated:</b></td>
-          <td>{{ batch.get_age()}}</td>
+          <td><b>Time in Container</b></td>
+          <td>{{ batch.get_age()}} days</td>
         </tr>
       </tbody>
     </table>

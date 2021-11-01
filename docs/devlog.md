@@ -52,3 +52,8 @@
 * added age since start to model, need to investigate how to determine brew length and show with total age
 * started work on form to move batch to different container
 * added view lable links to vessel overview
+
+### **2021.10.31** ###
+* Created move contents form and test
+* added link to move contents on batch view
+* created ability to update vessel status and added to vessel overview

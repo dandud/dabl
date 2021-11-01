@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}DABL{% endblock %}
+
+
+
+{% block page_content %}
+
+<h2 class="h2"><b>Move Vessel Contents</b></h2> 
+
+<p><b>Current Vessel:</b></p>
+<p>{{ vessel.name }}</p>
+
+{{ wtf.quick_form(form) }}
+{% endblock %}
