@@ -1,6 +1,8 @@
 from datetime import datetime
+from typing import DefaultDict
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
+from sqlalchemy import event
 
 
 
@@ -76,6 +78,27 @@ class Batch(db.Model):
             now = datetime.now()
             age = now - self.time_start
             return str(age.days)
+
+
+@event.listens_for(Batch, "after_insert")
+def insert_container_log(mapper, connection, target):
+    history_table = Batch_history.__table__
+    connection.execute(history_table.insert().values(user_id=1, name=target.name, status_id=target.status_id ))
+
+
+@event.listens_for(Batch, "after_update")
+def insert_container_log(mapper, connection, target):
+    history_table = Batch_history.__table__
+    connection.execute(history_table.insert().values(user_id=1, name=target.name, status_id=target.status_id ))
+
+
+class Batch_history(db.Model):
+    __tablename__ = "batch_history"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    modified_on = db.Column(db.DateTime, default=datetime.utcnow)
+    name = db.Column(db.String(32))
+    status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
 
 
 class Measurement(db.Model):
@@ -169,3 +192,26 @@ class Container(db.Model):
     status = db.relationship('Status')
     location = db.relationship('Location')
     containertype_rel = db.relationship('Containertype')
+
+
+@event.listens_for(Container, "after_insert")
+def insert_container_log(mapper, connection, target):
+    history_table = Container_history.__table__
+    connection.execute(history_table.insert().values(user_id=1, container_id=target.id, location_id=target.location_id, containertype_id=target.containertype_id, status_id=target.status_id ))
+
+
+@event.listens_for(Container, "after_update")
+def insert_container_log(mapper, connection, target):
+    history_table = Container_history.__table__
+    connection.execute(history_table.insert().values(user_id=1, container_id=target.id, location_id=target.location_id, containertype_id=target.containertype_id, status_id=target.status_id ))
+
+
+class Container_history(db.Model):
+    __tablename__ = "container_history"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    modified_on = db.Column(db.DateTime, default=datetime.utcnow)
+    container_id = db.Column(db.Integer, db.ForeignKey('containers.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
+    containertype_id = db.Column(db.Integer, db.ForeignKey('containertypes.id'))
+    status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
