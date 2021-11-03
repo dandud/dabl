@@ -57,3 +57,7 @@
 * Created move contents form and test
 * added link to move contents on batch view
 * created ability to update vessel status and added to vessel overview
+
+### **2021.11.02** ###
+* Added container and batch history models
+* Added listen events to detect changes on container and batch tables
