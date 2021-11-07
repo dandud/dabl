@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, session, redirect, url_for, current_app, flash
 from .. import db
-from ..models import Container, Containertype, Status
+from ..models import Container, Containertype, Status, Batch
 from . import containers
-from .forms import ContainerAddForm, VesselMoveContentsForm, VesselUpdateStatusForm
-
+from .forms import ContainerAddForm, VesselMoveContentsForm, VesselUpdateStatusForm, VesselFillForm
 
 _label_base_url = "http://"+"192.168.1.101:5000"
 
@@ -106,3 +105,33 @@ def vessel_update_status(container_id):
     return render_template('containers/vessel_update_status.html',
                            form=form,
                            vessel=_vessel)
+
+
+@containers.route('/vessel_fill/<batch_id>', methods=['GET', 'POST'])
+def vessel_fill(batch_id):
+    _all_vessels = Container.query.join(Container.containertype_rel) \
+        .filter(Containertype.is_vessel.is_(True)) \
+        .filter(Container.status_id == 100) \
+        .filter((Container.batch_id.is_(None) | Container.batch_id.is_('')))\
+        .all()
+    _batch = Batch.query.filter_by(id=batch_id).first()
+    
+    
+    form = VesselFillForm()
+
+    form.name.choices = [(row.id, row.name) for row in _all_vessels]
+
+    if form.validate_on_submit():
+        _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==form.name.data).first()
+        _vessel.batch_id = batch_id
+        _vessel.status_id = 102 
+        db.session.add(_vessel)
+        db.session.commit()
+
+        db.session.refresh(_vessel)
+        flash('Vessel status updated.', 'success')
+        return redirect(url_for('containers.all_vessels'))
+    
+    return render_template('containers/vessel_fill.html',
+                           form=form,
+                           batch=_batch)

@@ -29,9 +29,11 @@
                             <td>{{ vessel.status.name }}</td>
                             <td><a href="{{ url_for('batches.batch_view', name=vessel.batch.name) }}">{{ vessel.batch.name }}</a></td>
                             <td><div class="btn-group" role="group" aria-label="Actions">
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.vessel_move_contents', container_id=vessel.id) }}">Move Contents</a>
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.vessel_update_status', container_id=vessel.id) }}">Edit Status</a>
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.vessel_label', container_id=vessel.id) }}">Label</a>
+                              {% if vessel.batch.id is defined %}
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.vessel_move_contents', container_id=vessel.id) }}">Move Contents</a>
+                              {% endif %}
                             </div>
                           </td>
                           </tr>

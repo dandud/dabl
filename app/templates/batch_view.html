@@ -61,10 +61,16 @@
       <tbody>
         <tr>
           <td><b>Container</b></td>
-          <td>{{ containers.name }} - <a href="{{ url_for('containers.vessel_move_contents', container_id=containers.id) }}"> Move Contents</a></td>
+          {% if containers.name is defined %}
+            <td>{{ containers.name }} - <a href="{{ url_for('containers.vessel_move_contents', container_id=containers.id) }}"> Move Contents</a></td>
+          {% else %}
+            <td>None - <a href="{{ url_for('containers.vessel_fill', batch_id=batch.id) }}"> Fill Vessel</a></td>
+          {% endif %}
         </tr>
+          {% if containers.name is defined %}
           <td><b>Time in Container</b></td>
           <td>{{ batch.get_age()}} days</td>
+          {% endif %}
         </tr>
       </tbody>
     </table>
