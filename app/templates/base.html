@@ -25,6 +25,13 @@
                 <li><a href="{{ url_for('batches.all_batches') }}">Batch Overview</a></li>
                 <li><a href="{{ url_for('containers.all_vessels') }}">Vessel Overview</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 </div>

@@ -68,3 +68,5 @@
 ### **2021.11.07** ###
 * updated vessel over view to filter out out of service containers
 * updated move contents form to show batch id
+* worked on login functionality
+* added email to user model and updated db

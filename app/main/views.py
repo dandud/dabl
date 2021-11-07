@@ -60,7 +60,7 @@ def batch_add():
 
         db.session.refresh(_batch)
         flash('Batch added.', 'success')
-        return redirect(url_for("batches.all_batches"))
+        return redirect(url_for('batches.all_batches'))
     
     return render_template('batch_add.html',
                            form=form,
@@ -118,7 +118,7 @@ def batch_edit(batch_name):
 
         db.session.refresh(_batch)
         flash('Batch updated.', 'success')
-        return redirect(url_for("batches.all_batches"))
+        return redirect(url_for('batches.all_batches'))
     
     return render_template('batch_edit.html',
                            form=form,
@@ -131,12 +131,10 @@ def batch_view(name):
     _measurements = Measurement.query.filter_by(batch_id=_batch.id).all()
     _actions = Action.query.filter_by(batch_id=_batch.id).all()
     _containers = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True), Container.batch_id==_batch.id).first()
-    
-    print(_containers)
 
     if not _batch:
         flash('Oops! Something went wrong!.', 'danger')
-        return redirect(url_for("batches.all_batches"))
+        return redirect(url_for('batches.all_batches'))
 
     return render_template('batch_view.html',
                            batch=_batch, 
@@ -165,7 +163,7 @@ def action_add(batch_name):
 
         db.session.refresh(_action)
         flash('Action added.', 'success')
-        return redirect(url_for("batches.batch_view", name = _batch.name))
+        return redirect(url_for('batches.batch_view', name = _batch.name))
     
     return render_template('action_add.html',
                            form=form,
@@ -192,7 +190,7 @@ def measurement_add(batch_name):
 
         db.session.refresh(_measurement)
         flash('Measurement added.', 'success')
-        return redirect(url_for("batches.batch_view", name = _batch.name))
+        return redirect(url_for('batches.batch_view', name = _batch.name))
     
     return render_template('measurement_add.html',
                            form=form,
