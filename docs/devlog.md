@@ -61,3 +61,6 @@
 ### **2021.11.02** ###
 * Added container and batch history models
 * Added listen events to detect changes on container and batch tables
+
+### **2021.11.06** ###
+* added fill vessel view and linked to batch view
