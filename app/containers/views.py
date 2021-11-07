@@ -67,6 +67,7 @@ def vessel_move_contents(container_id):
         .filter((Container.batch_id.is_(None) | Container.batch_id.is_('')))\
         .all()
     _current_vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+    _batch = Batch.query.filter_by(id=_current_vessel.batch_id).first()
 
     form = VesselMoveContentsForm()
 
@@ -90,7 +91,8 @@ def vessel_move_contents(container_id):
     
     return render_template('containers/vessel_move_contents.html',
                            form=form,
-                           vessel=_current_vessel)
+                           vessel=_current_vessel,
+                           batch=_batch)
 
 
 @containers.route('/vessel_update_status/<container_id>', methods=['GET', 'POST'])

@@ -64,3 +64,7 @@
 
 ### **2021.11.06** ###
 * added fill vessel view and linked to batch view
+
+### **2021.11.07** ###
+* updated vessel over view to filter out out of service containers
+* updated move contents form to show batch id
