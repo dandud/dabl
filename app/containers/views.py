@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, current_app, flash
+from werkzeug.wrappers import StreamOnlyMixin
 from .. import db
 from ..models import Container, Containertype, Status, Batch
 from . import containers
@@ -8,7 +9,10 @@ _label_base_url = "http://"+"192.168.1.101:5000"
 
 @containers.route('/vessel_overview', methods=['GET', 'POST'])
 def all_vessels():
-    _all_vessels = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True)).all()
+    _all_vessels = Container.query.join(Container.containertype_rel)\
+        .filter(Containertype.is_vessel.is_(True))\
+        .filter(Container.status_id != 199)\
+        .all()
     
     return render_template('containers/vessel_overview.html',
                            all_vessels=_all_vessels)
@@ -57,7 +61,11 @@ def vessel_label(container_id):
 
 @containers.route('/vessel_move_contents/<container_id>', methods=['GET', 'POST'])
 def vessel_move_contents(container_id):
-    _all_vessels = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True), Container.id!=container_id).all()
+    _all_vessels = Container.query.join(Container.containertype_rel) \
+        .filter(Containertype.is_vessel.is_(True)) \
+        .filter(Container.status_id == 100) \
+        .filter((Container.batch_id.is_(None) | Container.batch_id.is_('')))\
+        .all()
     _current_vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
 
     form = VesselMoveContentsForm()
@@ -116,7 +124,6 @@ def vessel_fill(batch_id):
         .all()
     _batch = Batch.query.filter_by(id=batch_id).first()
     
-    
     form = VesselFillForm()
 
     form.name.choices = [(row.id, row.name) for row in _all_vessels]
@@ -130,7 +137,7 @@ def vessel_fill(batch_id):
 
         db.session.refresh(_vessel)
         flash('Vessel status updated.', 'success')
-        return redirect(url_for('containers.all_vessels'))
+        return redirect(url_for('batches.batch_view', name=_batch.name))
     
     return render_template('containers/vessel_fill.html',
                            form=form,
