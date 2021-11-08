@@ -22,7 +22,7 @@ class VesselFillForm(FlaskForm):
     submit = SubmitField(u'Fill Vessel')
 
 class BottleForm(FlaskForm):
-    containertype_rel = SelectField(u'Bottle Type', [Required()])
+    containertype_rel = SelectField(u'Bottle Type', [Required()], choices=[(5001,"Wine Bottle (cork)"),(5002,"Wine Bottle (screw type)")])
     volume_actual = DecimalField(u'Actual Volume', [Required()])
 
 class BottleBatchForm(FlaskForm):

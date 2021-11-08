@@ -153,10 +153,12 @@ def bottle_batch(batch_id):
         .filter(Container.batch_id.is_(batch_id))\
         .all()
     _batch = Batch.query.filter_by(id=batch_id).first()
-    
+    _bottletypes = Containertype.query.filter(Containertype.is_vessel.is_(False)).all()
+    print(_bottletypes)
     form = BottleBatchForm()
-    template_form = BottleForm(prefix='laps-_-')
-
+    template_form = BottleForm(prefix='bottles-_-')
+    template_form.containertype_rel.choices = [(row.id, row.name) for row in _bottletypes]
+    #form.bottles.containertype_rel.choices = [(row.id, row.name) for row in _bottletypes]
     #form.name.choices = [(row.id, row.name) for row in _all_vessels]
 
     if form.validate_on_submit():
