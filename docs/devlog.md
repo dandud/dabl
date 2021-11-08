@@ -70,3 +70,4 @@
 * updated move contents form to show batch id
 * worked on login functionality
 * added email to user model and updated db
+* start work on bottling form, form created need to finalize how data is written
