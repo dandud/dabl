@@ -1,0 +1,15 @@
+{# bottle batch form #}
+    {%- macro render_batch_bottle_form(subform, index) %}
+        <div id="bottle-{{ index }}-form" class="{% if index != '_' %}subform{% else %}is-hidden{% endif %}" data-index="{{ index }}">
+            <div>
+                {{ subform.containertype_rel.label }}
+                {{ subform.containertype_rel }}
+            </div>
+            <div>
+                {{ subform.volume_actual.label }}
+                {{ subform.volume_actual}}
+            </div>
+            <a class="remove" href="#">Remove</a>
+            <hr/>
+        </div>
+    {%- endmacro %}
