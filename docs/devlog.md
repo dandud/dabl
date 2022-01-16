@@ -70,5 +70,3 @@
 * updated move contents form to show batch id
 * worked on login functionality
 * added email to user model and updated db
-* start work on bottling form, form created need to finalize how data is written
-* need to figure out how to dynamically populate bottle type field inside of field list, hardcoded for now

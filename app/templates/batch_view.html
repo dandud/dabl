@@ -5,10 +5,7 @@
 
 {% block page_content %}
 <h1 class="h1"><b>Batch {{ batch.name }}</b></h1> 
-<a id="btn_action_add" type="button" href="{{ url_for('actions.action_add', batch_name=batch.name) }}" class="btn btn-primary">Add Action</a>
-<a id="btn_measurement_add" type="button" href="{{ url_for('measurements.measurement_add', batch_name=batch.name) }}" class="btn btn-primary">Add Measurement</a>
-<a id="btn_bottle" type="button" href="{{ url_for('containers.bottle_batch', batch_id=batch.id) }}" class="btn btn-primary">Bottle Batch</a>
-<p></p>
+
 <div class="card">
   <div class="card-body">
     <table class="table table-bordered">
@@ -81,7 +78,7 @@
 </div>
 
 <h2 class="h2"><b>Actions</b></h2>  
-
+<a id="btn_action_add" type="button" href="{{ url_for('actions.action_add', batch_name=batch.name) }}" class="btn btn-primary">Add Action</a>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -106,7 +103,7 @@
 </table>
 
 <h2 class="h2"><b>Measurements</b></h2> 
-
+<a id="btn_measurement_add" type="button" href="{{ url_for('measurements.measurement_add', batch_name=batch.name) }}" class="btn btn-primary">Add Measurement</a>
 <table class="table table-hover">
   <thead>
     <tr>

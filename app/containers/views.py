@@ -3,7 +3,7 @@ from werkzeug.wrappers import StreamOnlyMixin
 from .. import db
 from ..models import Container, Containertype, Status, Batch
 from . import containers
-from .forms import ContainerAddForm, VesselMoveContentsForm, VesselUpdateStatusForm, VesselFillForm, BottleBatchForm, BottleForm
+from .forms import ContainerAddForm, VesselMoveContentsForm, VesselUpdateStatusForm, VesselFillForm
 
 _label_base_url = "http://"+"192.168.1.101:5000"
 
@@ -144,35 +144,3 @@ def vessel_fill(batch_id):
     return render_template('containers/vessel_fill.html',
                            form=form,
                            batch=_batch)
-
-
-@containers.route('/bottle_batch/<batch_id>', methods=['GET', 'POST'])
-def bottle_batch(batch_id):
-    _all_bottles = Container.query.join(Container.containertype_rel) \
-        .filter(Containertype.is_vessel.is_(False)) \
-        .filter(Container.batch_id.is_(batch_id))\
-        .all()
-    _batch = Batch.query.filter_by(id=batch_id).first()
-    _bottletypes = Containertype.query.filter(Containertype.is_vessel.is_(False)).all()
-    print(_bottletypes)
-    form = BottleBatchForm()
-    template_form = BottleForm(prefix='bottles-_-')
-    template_form.containertype_rel.choices = [(row.id, row.name) for row in _bottletypes]
-    #form.bottles.containertype_rel.choices = [(row.id, row.name) for row in _bottletypes]
-    #form.name.choices = [(row.id, row.name) for row in _all_vessels]
-
-    if form.validate_on_submit():
-        _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==form.name.data).first()
-        _vessel.batch_id = batch_id
-        _vessel.status_id = 102 
-        #db.session.add(_vessel)
-        #db.session.commit()
-
-        #db.session.refresh(_vessel)
-        flash('Batch Bottled.', 'success')
-        return redirect(url_for('batches.batch_view', name=_batch.name))
-    
-    return render_template('containers/bottle_batch.html',
-                           form=form,
-                           batch=_batch,
-                           _template=template_form)
