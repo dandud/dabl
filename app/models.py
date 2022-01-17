@@ -208,6 +208,30 @@ class Container(db.Model):
     containertype_rel = db.relationship('Containertype')
 
 
+class Vesseltype(db.Model):
+    __tablename__ = 'vesseltypes'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(32))
+    volume_max = db.Column(db.Float)
+
+
+class Vessel(db.Model):
+    __tablename__ = 'vessels'
+    id = db.Column(db.Integer, primary_key = True)
+    batch_id = db.Column(db.Integer, db.ForeignKey('batches.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
+    vesseltype_id = db.Column(db.Integer, db.ForeignKey('vesseltypes.id'))
+    status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
+    name = db.Column(db.String(32))
+    volume_actual = db.Column(db.Float)
+    time_created = db.Column(db.DateTime)
+
+    batch = db.relationship('Batch')
+    status = db.relationship('Status')
+    location = db.relationship('Location')
+    vesseltype_rel = db.relationship('Vesseltype')
+
+
 @event.listens_for(Container, "after_insert")
 def insert_container_log(mapper, connection, target):
     history_table = Container_history.__table__
