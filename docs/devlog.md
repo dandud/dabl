@@ -70,3 +70,9 @@
 * updated move contents form to show batch id
 * worked on login functionality
 * added email to user model and updated db
+
+### **2022.01.16** ###
+* reverted to commit 84f1f5ef56b7126ab2333170aa28da9095fc8110
+
+### **2022.01.17** ###
+* began refactor to split container and vessel
