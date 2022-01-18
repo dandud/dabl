@@ -43,5 +43,8 @@ def create_app(config_name):
     from .containers import containers as containers_blueprint
     app.register_blueprint(containers_blueprint)
 
+    from .vessels import vessels as vessels_blueprint
+    app.register_blueprint(vessels_blueprint)
+
     return app
 

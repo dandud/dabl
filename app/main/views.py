@@ -1,6 +1,6 @@
 from flask import render_template, session, redirect, url_for, current_app, flash
 from .. import db
-from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype, Brewtype, Brewstyle, Status, Container, Containertype
+from ..models import Measurement, Measurementtype, User, Batch, Action, Actiontype, Brewtype, Brewstyle, Status, Container, Containertype, Vessel, Vesseltype
 from ..email import send_email
 from . import main, batches, actions, measurements
 from .forms import NameForm, ActionAddForm, MeasurementAddForm, BatchAddForm, BatchEditForm, BatchMoveForm
