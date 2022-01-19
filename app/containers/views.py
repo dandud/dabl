@@ -8,23 +8,23 @@ from .forms import ContainerAddForm, VesselMoveContentsForm, VesselUpdateStatusF
 _label_base_url = "http://"+"192.168.1.101:5000"
 
 
-@containers.route('/container_add', methods=['GET', 'POST'])
-def container_add():
-    form = ContainerAddForm()
-    _container = Container()
+# @containers.route('/container_add', methods=['GET', 'POST'])
+# def container_add():
+#     form = ContainerAddForm()
+#     _container = Container()
     
-    if form.validate_on_submit():
-        form.populate_obj(_container)
-        db.session.add(_container)
-        db.session.commit()
+#     if form.validate_on_submit():
+#         form.populate_obj(_container)
+#         db.session.add(_container)
+#         db.session.commit()
 
-        db.session.refresh(_container)
-        flash('Container added.', 'success')
-        return redirect(url_for("batches.all_batches"))
+#         db.session.refresh(_container)
+#         flash('Container added.', 'success')
+#         return redirect(url_for("batches.all_batches"))
     
-    return render_template('containers/container_add.html',
-                           form=form,
-                           container=_container)
+#     return render_template('containers/container_add.html',
+#                            form=form,
+#                            container=_container)
 
 
 # @containers.route('/vessel_lookup/<container_id>', methods=['GET', 'POST'])

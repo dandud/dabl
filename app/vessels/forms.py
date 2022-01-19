@@ -3,6 +3,10 @@ from wtforms import StringField, SubmitField, TextAreaField, IntegerField, DateT
 from wtforms.validators import DataRequired, Required, Length
 from wtforms.fields.html5 import DateField
 
+class VesselCreateForm(FlaskForm):
+    volume_actual = DecimalField(u'Actual Volume', [Required()])
+    submit = SubmitField(u'Create Vessel')
+
 class VesselMoveContentsForm(FlaskForm):
     name = SelectField(u'New Vessel', [Required()])
     submit = SubmitField(u'Move Contents')

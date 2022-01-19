@@ -3,7 +3,7 @@ from werkzeug.wrappers import StreamOnlyMixin
 from .. import db
 from ..models import Container, Containertype, Vessel, Vesseltype, Status, Batch
 from . import vessels
-from .forms import VesselMoveContentsForm, VesselUpdateStatusForm, VesselFillForm
+from .forms import VesselMoveContentsForm, VesselUpdateStatusForm, VesselFillForm, VesselCreateForm
 
 _label_base_url = "http://"+"192.168.1.101:5000"
 
@@ -16,6 +16,25 @@ def all_vessels():
     
     return render_template('vessels/vessel_overview.html',
                            all_vessels=_all_vessels)
+
+
+@vessels.route('/vessel_create', methods=['GET', 'POST'])
+def vessel_create():
+    form = VesselCreateForm()
+    _vessel = Vessel()
+    
+    if form.validate_on_submit():
+        form.populate_obj(_vessel)
+        db.session.add(_vessel)
+        db.session.commit()
+
+        db.session.refresh(_vessel)
+        flash('Vessel created.', 'success')
+        return redirect(url_for("vessels.all_vessels"))
+    
+    return render_template('vessels/vessel_create.html',
+                           form=form,
+                           vessel=_vessel)
 
 
 @vessels.route('/vessel_lookup/<container_id>', methods=['GET', 'POST'])
