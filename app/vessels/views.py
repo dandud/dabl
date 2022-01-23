@@ -9,11 +9,10 @@ _label_base_url = "http://"+"192.168.1.101:5000"
 
 @vessels.route('/vessel_overview', methods=['GET', 'POST'])
 def all_vessels():
-    _all_vessels = Container.query.join(Container.containertype_rel)\
-        .filter(Containertype.is_vessel.is_(True))\
-        .filter(Container.status_id != 199)\
+    _all_vessels = Vessel.query.join(Vessel.vesseltype_rel)\
         .all()
-    
+        #.filter(Vessel.status_id != 199)\
+        #.all()
     return render_template('vessels/vessel_overview.html',
                            all_vessels=_all_vessels)
 
@@ -49,12 +48,12 @@ def vessel_lookup(container_id):
     return redirect(url_for('vessels.all_vessels'))
 
 
-@vessels.route('/vessel_label/<container_id>', methods=['GET', 'POST'])
-def vessel_label(container_id):
+@vessels.route('/vessel_label/<vessel_id>', methods=['GET', 'POST'])
+def vessel_label(vessel_id):
     
-    _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+    _vessel = Vessel.query.join(Vessel.vesseltype_rel).filter(Vessel.id==vessel_id).first()
 
-    return render_template('containers/container_label.html',
+    return render_template('vessels/vessel_label.html',
                            vessel=_vessel,
                            base_url = _label_base_url)
 

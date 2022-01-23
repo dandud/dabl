@@ -24,13 +24,13 @@
                           {% for vessel in all_vessels %}
                           <tr>
                             <td>{{ vessel.name }}</td>
-                            <td>{{ vessel.containertype_rel.name }}</td>
-                            <td>{{ vessel.containertype_rel.volume_max }} gal</td>
+                            <td>{{ vessel.vesseltype_rel.name }}</td>
+                            <td>{{ vessel.vesseltype_rel.volume_max }} gal</td>
                             <td>{{ vessel.status.name }}</td>
                             <td><a href="{{ url_for('batches.batch_view', name=vessel.batch.name) }}">{{ vessel.batch.name }}</a></td>
                             <td><div class="btn-group" role="group" aria-label="Actions">
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.vessel_update_status', container_id=vessel.id) }}">Edit Status</a>
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.vessel_label', container_id=vessel.id) }}">Label</a>
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('vessels.vessel_label', vessel_id=vessel.id) }}">Label</a>
                               {% if vessel.batch.id is defined %}
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.vessel_move_contents', container_id=vessel.id) }}">Move Contents</a>
                               {% endif %}
@@ -40,7 +40,7 @@
                           {% endfor %}
                         {% else %}
                           <tr>
-                            <td>No Vessels Added. Please <a href="{{ url_for('containers.container_add')}}">add a vessel</a></td><td></td>
+                            <td>No Vessels Added. Please <a href="{{ url_for('vessels.vessel_create')}}">add a vessel</a></td><td></td>
                           </tr>
                         {% endif %}
                       </tbody>

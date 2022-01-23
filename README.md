@@ -17,7 +17,5 @@ General Notes
 * I have scripted in python before, but I have never utilized flask and have limited experience in web design. 
 * For the base application template I am pulling heavily from the [sample application](https://github.com/miguelgrinberg/flasky) that accompanies Miguel Grinberg's Flask Web Development Second Edition.
 
-Project started as part of [level1techs Devember 2021](https://forum.level1techs.com/t/devember-2021-web-based-home-brew-log/177368)
-
 Follow progress here:
 [Dev Log](docs/devlog.md)

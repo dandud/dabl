@@ -39,14 +39,14 @@ _label_base_url = "http://"+"192.168.1.101:5000"
 #     return redirect(url_for('containers.all_vessels'))
 
 
-@containers.route('/vessel_label/<container_id>', methods=['GET', 'POST'])
-def vessel_label(container_id):
+# @containers.route('/vessel_label/<container_id>', methods=['GET', 'POST'])
+# def vessel_label(container_id):
     
-    _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+#     _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
 
-    return render_template('containers/container_label.html',
-                           vessel=_vessel,
-                           base_url = _label_base_url)
+#     return render_template('containers/container_label.html',
+#                            vessel=_vessel,
+#                            base_url = _label_base_url)
 
 
 @containers.route('/vessel_move_contents/<container_id>', methods=['GET', 'POST'])

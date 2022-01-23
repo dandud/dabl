@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}DABL{% endblock %}
+
+
+
+{% block page_content %}
+
+<h2 class="h2"><b>VESSEL</b></h2> 
+
+{% set link = base_url + '/vessel_lookup/'+ vessel.id|string %}
+
+<p>VESSEL ID: {{ vessel.id }}</p>
+<p>VESSEL NAME: {{ vessel.name }}</p>
+<img src="{{ qrcode(link, box_size=5) }}">
+    
+
+{% endblock %}
