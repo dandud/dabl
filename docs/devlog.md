@@ -82,3 +82,6 @@
 
 ### **2022.01.23** ###
 * refactor vessel label and overview
+
+### **2022.03.07** ###
+* refactor vessel move, update status, fill, edit label html
