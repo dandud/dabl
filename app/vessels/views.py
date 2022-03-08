@@ -36,15 +36,15 @@ def vessel_create():
                            vessel=_vessel)
 
 
-@vessels.route('/vessel_lookup/<container_id>', methods=['GET', 'POST'])
-def vessel_lookup(container_id):
-    _all_vessels = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True)).all()
-    _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+@vessels.route('/vessel_lookup/<vessel_id>', methods=['GET', 'POST'])
+def vessel_lookup(vessel_id):
+    _all_vessels = Vessel.query.join(Vessel.vesseltype_rel).all()
+    _vessel = Vessel.query.join(Vessel.vesseltype_rel).filter(Vessel.id==vessel_id).first()
 
     if _vessel.batch_id:
         return redirect(url_for('batches.batch_view', name=_vessel.batch.name))
     
-    flash('Container not associated with batch.', 'success')
+    flash('Vessel not associated with batch.', 'success')
     return redirect(url_for('vessels.all_vessels'))
 
 
@@ -58,14 +58,13 @@ def vessel_label(vessel_id):
                            base_url = _label_base_url)
 
 
-@vessels.route('/vessel_move_contents/<container_id>', methods=['GET', 'POST'])
-def vessel_move_contents(container_id):
-    _all_vessels = Container.query.join(Container.containertype_rel) \
-        .filter(Containertype.is_vessel.is_(True)) \
-        .filter(Container.status_id == 100) \
-        .filter((Container.batch_id.is_(None) | Container.batch_id.is_('')))\
+@vessels.route('/vessel_move_contents/<vessel_id>', methods=['GET', 'POST'])
+def vessel_move_contents(vessel_id):
+    _all_vessels = Vessel.query.join(Vessel.vesseltype_rel) \
+        .filter(Vessel.status_id == 100) \
+        .filter((Vessel.batch_id.is_(None) | Vessel.batch_id.is_('')))\
         .all()
-    _current_vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+    _current_vessel = Vessel.query.join(Vessel.vesseltype_rel).filter(Vessel.id==vessel_id).first()
     _batch = Batch.query.filter_by(id=_current_vessel.batch_id).first()
 
     form = VesselMoveContentsForm()
@@ -75,7 +74,7 @@ def vessel_move_contents(container_id):
     if form.validate_on_submit():
         
         new_vessel_id = form.name.data
-        _new_vessel = Container.query.join(Container.containertype_rel).filter(Container.id==new_vessel_id).first()
+        _new_vessel = Vessel.query.join(Vessel.vesseltype_rel).filter(Vessel.id==new_vessel_id).first()
         _new_vessel.batch_id = _current_vessel.batch_id
         _new_vessel.status_id = 102 
         _current_vessel.batch_id = ''
@@ -88,19 +87,19 @@ def vessel_move_contents(container_id):
         flash('Vessel contents moved.', 'success')
         return redirect(url_for('vessels.all_vessels'))
     
-    return render_template('containers/vessel_move_contents.html',
+    return render_template('vessels/vessel_move_contents.html',
                            form=form,
                            vessel=_current_vessel,
                            batch=_batch)
 
 
-@vessels.route('/vessel_update_status/<container_id>', methods=['GET', 'POST'])
-def vessel_update_status(container_id):
-    _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+@vessels.route('/vessel_update_status/<vessel_id>', methods=['GET', 'POST'])
+def vessel_update_status(vessel_id):
+    _vessel = Vessel.query.join(Vessel.vesseltype_rel).filter(Vessel.id==vessel_id).first()
     
     form = VesselUpdateStatusForm(obj=_vessel)
 
-    form.status_id.choices = [(row.id, row.name) for row in Status.query.filter_by(type='Container').all()]
+    form.status_id.choices = [(row.id, row.name) for row in Status.query.filter_by(type='Vessel').all()]
 
     if form.validate_on_submit():
         form.populate_obj(_vessel)
@@ -111,17 +110,16 @@ def vessel_update_status(container_id):
         flash('Vessel status updated.', 'success')
         return redirect(url_for('vessels.all_vessels'))
     
-    return render_template('containers/vessel_update_status.html',
+    return render_template('vessels/vessel_update_status.html',
                            form=form,
                            vessel=_vessel)
 
 
 @vessels.route('/vessel_fill/<batch_id>', methods=['GET', 'POST'])
 def vessel_fill(batch_id):
-    _all_vessels = Container.query.join(Container.containertype_rel) \
-        .filter(Containertype.is_vessel.is_(True)) \
-        .filter(Container.status_id == 100) \
-        .filter((Container.batch_id.is_(None) | Container.batch_id.is_('')))\
+    _all_vessels = Vessel.query.join(Vessel.vesseltype_rel) \
+        .filter(Vessel.status_id == 100) \
+        .filter((Vessel.batch_id.is_(None) | Vessel.batch_id.is_('')))\
         .all()
     _batch = Batch.query.filter_by(id=batch_id).first()
     
@@ -130,7 +128,7 @@ def vessel_fill(batch_id):
     form.name.choices = [(row.id, row.name) for row in _all_vessels]
 
     if form.validate_on_submit():
-        _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==form.name.data).first()
+        _vessel = Vessel.query.join(Vessel.vesseltype_rel).filter(Vessel.id==form.name.data).first()
         _vessel.batch_id = batch_id
         _vessel.status_id = 102 
         db.session.add(_vessel)
@@ -140,6 +138,6 @@ def vessel_fill(batch_id):
         flash('Vessel status updated.', 'success')
         return redirect(url_for('batches.batch_view', name=_batch.name))
     
-    return render_template('containers/vessel_fill.html',
+    return render_template('vessels/vessel_fill.html',
                            form=form,
                            batch=_batch)

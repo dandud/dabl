@@ -130,7 +130,7 @@ def batch_view(name):
     _batch = Batch.query.filter_by(name=name).first()
     _measurements = Measurement.query.filter_by(batch_id=_batch.id).all()
     _actions = Action.query.filter_by(batch_id=_batch.id).all()
-    _containers = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True), Container.batch_id==_batch.id).first()
+    _vessels = Vessel.query.join(Vessel.vesseltype_rel).filter(Vessel.batch_id==_batch.id).first()
 
     if not _batch:
         flash('Oops! Something went wrong!.', 'danger')
@@ -140,7 +140,7 @@ def batch_view(name):
                            batch=_batch, 
                            measurements=_measurements,
                            actions=_actions,
-                           containers=_containers)
+                           vessels=_vessels)
 
 
 @actions.route('/action_add/<batch_name>', methods=['GET', 'POST'])

@@ -7,13 +7,18 @@
 
 {% block page_content %}
 
-<h2 class="h2"><b>VESSEL</b></h2> 
-
 {% set link = base_url + '/vessel_lookup/'+ vessel.id|string %}
 
-<p>VESSEL ID: {{ vessel.id }}</p>
-<p>VESSEL NAME: {{ vessel.name }}</p>
-<img src="{{ qrcode(link, box_size=5) }}">
-    
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <img src="{{ qrcode(link, box_size=5) }}">
+        </div>
+        <div class="col-sm-3">
+            <p>ID: {{ vessel.id }}</p>
+            <p>{{ vessel.name }}</p>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
