@@ -85,3 +85,8 @@
 
 ### **2022.03.07** ###
 * refactor vessel move, update status, fill, edit label html
+
+### **2022.03.08** ###
+* create container overview
+* create container add
+* add containers to batch view
