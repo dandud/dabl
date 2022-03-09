@@ -188,7 +188,6 @@ class Containertype(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
     volume_max = db.Column(db.Float)
-    is_vessel = db.Column(db.Boolean)
 
 
 class Container(db.Model):
@@ -206,6 +205,12 @@ class Container(db.Model):
     status = db.relationship('Status')
     location = db.relationship('Location')
     containertype_rel = db.relationship('Containertype')
+
+    def get_age(self):
+        if self.time_created:
+            now = datetime.now()
+            age = now - self.time_created
+            return str(age.days)
 
 
 class Vesseltype(db.Model):

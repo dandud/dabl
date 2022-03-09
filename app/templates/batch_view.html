@@ -68,7 +68,7 @@
           {% endif %}
         </tr>
           {% if vessels.name is defined %}
-          <td><b>Time in Container</b></td>
+          <td><b>Time in Vessel</b></td>
           <td>{{ batch.get_age()}} days</td>
           {% endif %}
         </tr>
@@ -76,6 +76,35 @@
     </table>
   </div>
 </div>
+
+<h2 class="h2"><b>Containers</b></h2>  
+<a id="btn_action_add" type="button" href="{{ url_for('actions.action_add', batch_name=batch.name) }}" class="btn btn-primary">Add Action</a>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Amount</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if containers|length > 0 %}
+      {% for container in containers %}
+      <tr>
+        <td>{{ container.name }}</td>
+        <td>{{ container.containertype_rel.name }}</td>
+        <td>{{ container.volume_actual }}</td>
+        <td>{{ container.get_age() }} days</td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td>No Actions Added.</td><td></td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
 
 <h2 class="h2"><b>Actions</b></h2>  
 <a id="btn_action_add" type="button" href="{{ url_for('actions.action_add', batch_name=batch.name) }}" class="btn btn-primary">Add Action</a>

@@ -4,7 +4,10 @@ from wtforms.validators import DataRequired, Required, Length
 from wtforms.fields.html5 import DateField
 
 class ContainerAddForm(FlaskForm):
+    name = StringField(u'Container Name')
+    containertype_id = SelectField(u'Container Type', [Required()])
     volume_actual = DecimalField(u'Actual Volume', [Required()])
+    time_created = DateTimeField(u'Create Time')
     submit = SubmitField(u'Create Container')
 
 class VesselMoveContentsForm(FlaskForm):
