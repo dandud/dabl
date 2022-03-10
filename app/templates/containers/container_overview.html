@@ -30,7 +30,7 @@
                             <td><a href="{{ url_for('batches.batch_view', name=container.batch.name) }}">{{ container.batch.name }}</a></td>
                             <td><div class="btn-group" role="group" aria-label="Actions">
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('batches.batch_view', name=container.batch.name) }}">Edit Status</a>
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('batches.batch_view', name=container.batch.name) }}">Label</a>
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.container_label', container_id=container.id) }}">Label</a>
                               {% if container.batch.id is defined %}
                               <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('batches.batch_view', name=container.batch.name) }}">Move Contents</a>
                               {% endif %}

@@ -83,6 +83,7 @@ class Batch(db.Model):
     status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     description = db.Column(db.String(128))
+    abv = db.Column(db.Float)
 
     type = db.relationship('Brewtype')
     style = db.relationship('Brewstyle')

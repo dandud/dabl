@@ -93,3 +93,5 @@
 
 ### **2022.03.09** ###
 * create container label
+* added abv and description column to batch model
+* database migrations
