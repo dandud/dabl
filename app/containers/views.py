@@ -49,26 +49,26 @@ def container_add(batch_name):
                            container=_container)
 
 
-# @containers.route('/vessel_lookup/<container_id>', methods=['GET', 'POST'])
-# def vessel_lookup(container_id):
-#     _all_vessels = Container.query.join(Container.containertype_rel).filter(Containertype.is_vessel.is_(True)).all()
-#     _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+@containers.route('/container_lookup/<container_id>', methods=['GET', 'POST'])
+def container_lookup(container_id):
+    _all_containers = Container.query.join(Container.containertype_rel).all()
+    _container = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
 
-#     if _vessel.batch_id:
-#         return redirect(url_for('batches.batch_view', name=_vessel.batch.name))
+    if _container.batch_id:
+        return redirect(url_for('batches.batch_view', name=_container.batch.name))
     
-#     flash('Container not associated with batch.', 'success')
-#     return redirect(url_for('containers.all_vessels'))
+    flash('Container not associated with batch.', 'success')
+    return redirect(url_for('containers.all_containers'))
 
 
-# @containers.route('/vessel_label/<container_id>', methods=['GET', 'POST'])
-# def vessel_label(container_id):
+@containers.route('/container_label/<container_id>', methods=['GET', 'POST'])
+def container_label(container_id):
     
-#     _vessel = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+    _container = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
 
-#     return render_template('containers/container_label.html',
-#                            vessel=_vessel,
-#                            base_url = _label_base_url)
+    return render_template('containers/container_label.html',
+                           container=_container,
+                           base_url = _label_base_url)
 
 
 # @containers.route('/vessel_move_contents/<container_id>', methods=['GET', 'POST'])
