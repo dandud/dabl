@@ -25,7 +25,7 @@
                           <tr>
                             <td>{{ container.name }}</td>
                             <td>{{ container.containertype_rel.name }}</td>
-                            <td>{{ container.volume_actual }} gal</td>
+                            <td>{{ container.volume_actual }} mL</td>
                             <td>{{ container.get_age() }} days</td>
                             <td><a href="{{ url_for('batches.batch_view', name=container.batch.name) }}">{{ container.batch.name }}</a></td>
                             <td><div class="btn-group" role="group" aria-label="Actions">
