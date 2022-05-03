@@ -95,3 +95,7 @@
 * create container label
 * added abv and description column to batch model
 * database migrations
+
+### **2022.05.02** ###
+* explore modals for container label and container consumption
+* need to create route for consumption of container

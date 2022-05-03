@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-
+{% set base_url ="http://"+"192.168.1.101:5000" %}
 {% block title %}DABL{% endblock %}
 
 {% block page_content %}
@@ -22,6 +22,7 @@
                       <tbody>
                         {% if all_containers|length > 0 %}
                           {% for container in all_containers %}
+                          {% set link = base_url + '/container_lookup/'+ container.id|string %}
                           <tr>
                             <td>{{ container.name }}</td>
                             <td>{{ container.containertype_rel.name }}</td>
@@ -29,11 +30,72 @@
                             <td>{{ container.get_age() }} days</td>
                             <td><a href="{{ url_for('batches.batch_view', name=container.batch.name) }}">{{ container.batch.name }}</a></td>
                             <td><div class="btn-group" role="group" aria-label="Actions">
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('batches.batch_view', name=container.batch.name) }}">Edit Status</a>
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('containers.container_label', container_id=container.id) }}">Label</a>
-                              {% if container.batch.id is defined %}
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-secondary" href="{{ url_for('batches.batch_view', name=container.batch.name) }}">Move Contents</a>
-                              {% endif %}
+                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-info" href="{{ url_for('containers.container_label', container_id=container.id) }}">Label</a>
+                              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalCenterLabel{{container.id}}">
+                                Label
+                              </button>
+                              <!-- Modal -->
+                              <div class="modal fade" id="modalCenterLabel{{container.id}}">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="modalCenterLabel{{container.id}}">Container Label</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img src="{{ qrcode(link, box_size=3) }}">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <p>{{ container.name }}</p>
+                                                <p>{{ container.batch.description }} | {{ container.batch.abv }}% ABV</p>
+                                                <p>Bottled: {{ container.time_created.strftime('%Y-%m-%d') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- https://stackoverflow.com/questions/45874906/flask-and-javascript-confirm-before-deleting -->
+                              <!--  https://stackoverflow.com/questions/70257299/flask-modal-confirm-dialog look at this example to align confirms-->
+                              <!-- Button trigger modal -->
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter{{container.id}}">
+                                Consume
+                              </button>
+                              <!-- Modal -->
+                              <div class="modal fade" id="exampleModalCenter{{container.id}}">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLongTitle{{container.id}}">Container Consumption</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <h3>Consume {{container.name}}</h3>
+                                      <p>Are you sure?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <form action="{{url_for('batches.batch_view', name=container.batch.name)}}" method="post">
+                                        <input type="submit" value="Consume" class="btn btn-primary mr-auto">
+                                      </form>
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                            </td>
                             </div>
                           </td>
                           </tr>
