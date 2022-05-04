@@ -4,7 +4,8 @@
 {% block title %}DABL{% endblock %}
 
 {% block page_content %}
-<a id="btn_batch_add" type="button" href="" class="btn btn-primary">Add Vessel</a>
+<a id="btn_batch_add" type="button" href="{{ url_for('containers.active_containers') }}" class="btn btn-primary">Active</a>
+<a id="btn_batch_add" type="button" href="{{ url_for('containers.all_containers') }}" class="btn btn-primary">All</a>
 <div class="container">
     <div class="row mt-5">
       <div class="col-6 offset-3">
@@ -30,7 +31,6 @@
                             <td>{{ container.get_age() }} days</td>
                             <td><a href="{{ url_for('batches.batch_view', name=container.batch.name) }}">{{ container.batch.name }}</a></td>
                             <td><div class="btn-group" role="group" aria-label="Actions">
-                              <a style="margin-right: 5px; margin-left: 5px;" class="btn btn-outline-info" href="{{ url_for('containers.container_label', container_id=container.id) }}">Label</a>
                               <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalCenterLabel{{container.id}}">
                                 Label
                               </button>
@@ -67,6 +67,7 @@
                               <!-- https://stackoverflow.com/questions/45874906/flask-and-javascript-confirm-before-deleting -->
                               <!--  https://stackoverflow.com/questions/70257299/flask-modal-confirm-dialog look at this example to align confirms-->
                               <!-- Button trigger modal -->
+                              {% if container.status_id == 200 %}
                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter{{container.id}}">
                                 Consume
                               </button>
@@ -85,7 +86,7 @@
                                       <p>Are you sure?</p>
                                     </div>
                                     <div class="modal-footer">
-                                      <form action="{{url_for('batches.batch_view', name=container.batch.name)}}" method="post">
+                                      <form action="{{url_for('containers.container_consume', container_id=container.id)}}" method="post">
                                         <input type="submit" value="Consume" class="btn btn-primary mr-auto">
                                       </form>
                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -93,6 +94,7 @@
                                   </div>
                                 </div>
                               </div>
+                              {% endif %}
 
 
                             </td>
@@ -102,7 +104,7 @@
                           {% endfor %}
                         {% else %}
                           <tr>
-                            <td>No Vessels Added. Please <a href="{{ url_for('batches.batch_view', name=container.batch.name) }}">add a vessel</a></td><td></td>
+                            <td>No Containers Added. Please add a container.</a></td><td></td>
                           </tr>
                         {% endif %}
                       </tbody>

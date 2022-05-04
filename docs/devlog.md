@@ -99,3 +99,8 @@
 ### **2022.05.02** ###
 * explore modals for container label and container consumption
 * need to create route for consumption of container
+
+### **2022.05.03** ###
+* added route for consumption of containers
+* updated container overview
+* updated route for container add to set container status when created

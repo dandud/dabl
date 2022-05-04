@@ -17,6 +17,14 @@ def all_containers():
     return render_template('containers/container_overview.html',
                            all_containers=_all_containers)
 
+@containers.route('/container_overview/active', methods=['GET', 'POST'])
+def active_containers():
+    _active_containers = Container.query.join(Container.containertype_rel)\
+        .filter(Container.status_id == 200)\
+        .all()
+    return render_template('containers/container_overview.html',
+                           all_containers=_active_containers)
+
 @containers.route('/container_add/<batch_name>', methods=['GET', 'POST'])
 def container_add(batch_name):
     _container = Container()
@@ -35,6 +43,7 @@ def container_add(batch_name):
 
     if form.validate_on_submit():
         _container.time_created = time_now
+        _container.status_id = 200
         form.populate_obj(_container)
 
         db.session.add(_container)
@@ -70,6 +79,22 @@ def container_label(container_id):
                            container=_container,
                            base_url = _label_base_url)
 
+
+@containers.route('/container_consume/<container_id>', methods=['GET', 'POST'])
+def container_consume(container_id):
+    
+    _container = Container.query.join(Container.containertype_rel).filter(Container.id==container_id).first()
+
+    if _container.status_id == 200:
+        _container.status_id = 202
+        db.session.add(_container)
+        db.session.commit()
+        db.session.refresh(_container)
+        flash('Container Consumed.', 'success')
+        return redirect(url_for('containers.active_containers'))
+    else:
+        flash('Container Consumption Failed.', 'danger')
+        return redirect(url_for('containers.active_containers'))
 
 # @containers.route('/vessel_move_contents/<container_id>', methods=['GET', 'POST'])
 # def vessel_move_contents(container_id):
