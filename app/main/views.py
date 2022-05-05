@@ -187,7 +187,7 @@ def action_add(batch_name):
         flash('Action added.', 'success')
         return redirect(url_for('batches.batch_view', name = _batch.name))
     
-    return render_template('action_add.html',
+    return render_template('actions/action_add.html',
                            form=form,
                            action=_action)
 

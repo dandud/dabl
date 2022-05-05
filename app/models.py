@@ -71,6 +71,13 @@ class Status(db.Model):
     type = db.Column(db.String(32))
 
 
+class Engunit(db.Model):
+    __tablename__ = 'engunits'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(32))
+    type = db.Column(db.String(32))
+
+
 class Batch(db.Model):
     __tablename__ = 'batches'
     id = db.Column(db.Integer, primary_key = True)
@@ -201,12 +208,15 @@ class Container(db.Model):
     status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
     name = db.Column(db.String(32))
     volume_actual = db.Column(db.Float)
+    volume_engunit_id = db.Column(db.Integer, db.ForeignKey('engunits.id'))
     time_created = db.Column(db.DateTime)
 
     batch = db.relationship('Batch')
     status = db.relationship('Status')
     location = db.relationship('Location')
     containertype_rel = db.relationship('Containertype')
+    volume_engunit_rel = db.relationship('Engunit')
+
 
     def get_age(self):
         if self.time_created:

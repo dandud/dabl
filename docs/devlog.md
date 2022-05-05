@@ -104,3 +104,8 @@
 * added route for consumption of containers
 * updated container overview
 * updated route for container add to set container status when created
+
+### **2022.05.04** ###
+* began work of refactoring engineering units
+* created engunits table, updated container model with relationship
+* migrate / updated db
