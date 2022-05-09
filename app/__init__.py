@@ -34,7 +34,7 @@ def create_app(config_name):
     from .main import batches as batches_blueprint
     app.register_blueprint(batches_blueprint)
 
-    from .main import actions as actions_blueprint
+    from .actions import actions as actions_blueprint
     app.register_blueprint(actions_blueprint)
 
     from .measurements import measurements as measurements_blueprint
