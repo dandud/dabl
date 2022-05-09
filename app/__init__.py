@@ -37,7 +37,7 @@ def create_app(config_name):
     from .main import actions as actions_blueprint
     app.register_blueprint(actions_blueprint)
 
-    from .main import measurements as measurements_blueprint
+    from .measurements import measurements as measurements_blueprint
     app.register_blueprint(measurements_blueprint)
 
     from .containers import containers as containers_blueprint

@@ -14,13 +14,6 @@ class ActionAddForm(FlaskForm):
     submit = SubmitField(u'Save Action')
 
 
-class MeasurementAddForm(FlaskForm):
-    time_measured = DateTimeField(u'Measurement Timestamp', [Required()])
-    measurementtype_id = SelectField(u'Measurment Type', [Required()])
-    value = DecimalField(u'Measured Value', [Required()])
-    submit = SubmitField(u'Save Measurement')
-
-
 class BatchAddForm(FlaskForm):
     name = StringField(u'Batch Name', [Required()])
     type_id = SelectField(u'Type', [Required()])
