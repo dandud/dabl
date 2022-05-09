@@ -28,6 +28,6 @@ def measurement_add(batch_name):
         flash('Measurement added.', 'success')
         return redirect(url_for('batches.batch_view', name = _batch.name))
     
-    return render_template('measurement_add.html',
+    return render_template('measurements/measurement_add.html',
                            form=form,
                            measurement=_measurement)
