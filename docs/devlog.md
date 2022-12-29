@@ -109,3 +109,6 @@
 * began work of refactoring engineering units
 * created engunits table, updated container model with relationship
 * migrate / updated db
+
+### **2022.12.29** ###
+* updates to vessel form to set name
