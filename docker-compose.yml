@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  dabl:
+    build: .
+    ports:
+      - "8000:5000"
+    env_file: .env
+    restart: always
+    links:
+      - mysql:dbserver
+  mysql:
+    image: "arm64v8/mysql:8.0.31"
+    env_file: .env-mysql
+    restart: always
