@@ -4,6 +4,7 @@ from .. import db
 from ..models import Container, Containertype, Vessel, Vesseltype, Status, Batch
 from . import vessels
 from .forms import VesselMoveContentsForm, VesselUpdateStatusForm, VesselFillForm, VesselCreateForm
+from datetime import datetime
 
 _label_base_url = "http://"+"192.168.1.101:5000"
 
@@ -21,7 +22,13 @@ def all_vessels():
 def vessel_create():
     form = VesselCreateForm()
     _vessel = Vessel()
-    
+    form.vesseltype_id.choices = [(row.id, row.name) for row in Vesseltype.query.all()]
+
+    count_vessels = Vessel.query.count()
+    vessel_next = count_vessels + 1
+
+    _vessel.name = 'Vessel' + str(vessel_next).zfill(2)
+
     if form.validate_on_submit():
         form.populate_obj(_vessel)
         db.session.add(_vessel)

@@ -4,6 +4,8 @@ from wtforms.validators import DataRequired, Required, Length
 from wtforms.fields.html5 import DateField
 
 class VesselCreateForm(FlaskForm):
+    name = StringField(u'Vessel Name', [Required()])
+    vesseltype_id = SelectField(u'Container Type', [Required()])
     volume_actual = DecimalField(u'Actual Volume', [Required()])
     submit = SubmitField(u'Create Vessel')
 
