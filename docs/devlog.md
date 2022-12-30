@@ -112,3 +112,4 @@
 
 ### **2022.12.29** ###
 * updates to vessel form to set name
+* initial docker config

@@ -2,13 +2,13 @@ version: '3.7'
 services:
   dabl:
     build: .
+    user: root
     ports:
       - "8000:5000"
     env_file: .env
     restart: always
     links:
-      - mysql:dbserver
-  mysql:
-    image: "arm64v8/mysql:8.0.31"
-    env_file: .env-mysql
-    restart: always
+      - mariadb:dbserver
+  mariadb:
+    image: "jsurf/rpi-mariadb"
+    env_file: .env-mariadb

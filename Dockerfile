@@ -1,16 +1,18 @@
-FROM python:3.6-slim-stretch
+FROM python:3.7.4-buster
 
 ENV FLASK_APP dabl.py
 ENV FLASK_CONFIG production
 
-RUN adduser -D dabl
+RUN adduser dabl
 USER dabl
 
 WORKDIR /home/dabl
 
 COPY requirements requirements
-RUN python -m venv venv
-RUN venv/bin/pip install -r requirements/docker.txt
+ENV PATH=/home/dabl/.virtualenvs/bin:$PATH
+
+#RUN venv/bin/pip3 install -r requirements/docker.txt
+RUN pip3 install -r requirements/docker.txt
 
 COPY app app
 COPY migrations migrations
