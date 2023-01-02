@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 import click
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 from app import create_app, db
 from app.models import *
 from flask_qrcode import QRcode
@@ -14,6 +14,11 @@ QRcode(app)
 def make_shell_context():
     return dict(db=db, User=User, Role=Role)
 
+@app.cli.command()
+def deploy():
+    """Run deployment tasks."""
+    # migrate database to latest revision
+    upgrade()
 
 @app.cli.command()
 @click.argument('test_names', nargs=-1)

@@ -4,20 +4,21 @@ ENV FLASK_APP dabl.py
 ENV FLASK_CONFIG production
 
 RUN adduser dabl
-USER dabl
+#USER dabl
 
 WORKDIR /home/dabl
 
 COPY requirements requirements
-ENV PATH=/home/dabl/.virtualenvs/bin:$PATH
 
-#RUN venv/bin/pip3 install -r requirements/docker.txt
-RUN pip3 install -r requirements/docker.txt
+RUN pip install -r requirements/docker.txt
 
 COPY app app
 COPY migrations migrations
-COPY dabl.py config.py boot.sh ./
+COPY dabl.py config.py ./
 
-# run-time configuration
+RUN ["chmod", "+x", "boot.sh"]
+
 EXPOSE 5000
-ENTRYPOINT ["./boot.sh"]
+
+#CMD ["flask", "run", "--host", "0.0.0.0", "--port", "5000"]
+ENTRYPOINT ["sh", "./boot.sh"]

@@ -113,3 +113,6 @@
 ### **2022.12.29** ###
 * updates to vessel form to set name
 * initial docker config
+
+### **2022.12.31** ###
+* Modifications to docker config and requirements to support postgres
