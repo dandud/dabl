@@ -1,14 +1,24 @@
-version: '3.7'
+version: '3.8'
+
 services:
-  dabl:
+  web:
+    container_name: web
     build: .
-    user: root
+    volumes:
+      - ./services/web/:/dabl/app/
     ports:
-      - "8000:5000"
-    env_file: .env
-    restart: always
-    links:
-      - mariadb:dbserver
-  mariadb:
-    image: "jsurf/rpi-mariadb"
-    env_file: .env-mariadb
+      - 5000:5000
+    env_file:
+      - .env
+    depends_on:
+      - db
+  db:
+    image: postgres:9.6.24-stretch
+    container_name: db
+    #  volumes:
+    #   - postgres_data:/dabl/db
+    env_file:
+      - .env-postgres
+
+volumes:
+  postgres_data:

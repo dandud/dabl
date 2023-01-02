@@ -17,8 +17,11 @@ def make_shell_context():
 @app.cli.command()
 def deploy():
     """Run deployment tasks."""
-    # migrate database to latest revision
-    upgrade()
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
+# migrate database to latest revision
+    #upgrade()
 
 @app.cli.command()
 @click.argument('test_names', nargs=-1)
@@ -37,7 +40,36 @@ def initdb_data():
 
     format_dt = '%Y-%m-%d %H:%M:%S'
 
-    batch1 = Batch(name = '0001-20210716',
+    db.session.add(Brewtype(name = 'Mead'))
+    db.session.add(Brewtype(name = 'Wine'))
+    db.session.add(Brewtype(name = 'Cider'))
+    db.session.add(Brewtype(name = 'Beer'))
+
+    db.session.add(Brewstyle(name = 'Traditional'))
+    db.session.add(Brewstyle(name = 'Melomel'))
+    db.session.add(Brewstyle(name = 'Apple'))
+    db.session.add(Brewstyle(name = 'Grape'))
+
+    db.session.add(Status(id = 0, name ='Created', type ='Batch'))
+    db.session.add(Status(id = 1, name ='Primary Fermentation', type ='Batch'))
+    db.session.add(Status(id = 2, name ='Secondary Fermentation', type ='Batch'))
+    db.session.add(Status(id = 3, name ='Bulk Aging', type ='Batch'))
+    db.session.add(Status(id = 4, name ='Bottled', type ='Batch'))
+    db.session.add(Status(id = 1000, name ='New'))
+    db.session.add(User(id = 1, username = 'dabl'))
+    db.session.add(User(id = 2, username = 'dan'))
+
+    db.session.commit()
+
+    print("Database initialized with base framework")
+
+@app.cli.command("initdb_batch_data")
+def initdb_batch_data():
+    """Init database with data for testing / demo"""
+
+    format_dt = '%Y-%m-%d %H:%M:%S'
+
+    batch1 = Batch(name = str(datetime.now().timestamp()),
                      time_start = datetime.strptime('2021-07-16 22:50:00', format_dt),
                      time_end = datetime.strptime('2021-08-05 22:30:00', format_dt),
                      time_updated = datetime.strptime('2021-09-05 22:00:00', format_dt),
@@ -46,7 +78,7 @@ def initdb_data():
                      status_id = 4,
                      user_id =1)
 
-    batch2 = Batch(name = '0002-20210801',
+    batch2 = Batch(name = str(datetime.now().timestamp()),
                      time_start = datetime.strptime('2021-08-01 22:50:00', format_dt),
                      time_end = datetime.strptime('2021-08-16 22:30:00', format_dt),
                      time_updated = datetime.strptime('2021-09-07 22:00:00', format_dt),
@@ -55,7 +87,7 @@ def initdb_data():
                      status_id = 1,
                      user_id =2)
 
-    batch3 = Batch(name = '0003-20210815',
+    batch3 = Batch(name = str(datetime.now().timestamp()),
                      time_start = datetime.strptime('2021-08-15 22:50:00', format_dt),
                      time_end = datetime.strptime('2021-09-05 22:30:00', format_dt),
                      time_updated = datetime.strptime('2021-09-08 22:00:00', format_dt),
@@ -69,7 +101,7 @@ def initdb_data():
     db.session.add(batch1)
     db.session.add(batch2)
     db.session.add(batch3)
-    
+
     db.session.commit()
 
     print("Database initialized with 3 demo batches")

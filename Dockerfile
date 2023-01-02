@@ -1,24 +1,27 @@
-FROM python:3.7.4-buster
+# pull official base image
+FROM python:3.10.7-slim-buster
 
-ENV FLASK_APP dabl.py
-ENV FLASK_CONFIG production
-
-RUN adduser dabl
-#USER dabl
-
+# set work directory
 WORKDIR /home/dabl
 
-COPY requirements requirements
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
+# install psycopg2 dependencies
+RUN apt-get update \
+    && apt-get install -y libpq-dev gcc build-essential zlib1g-dev libjpeg-dev
+
+# install dependencies
+RUN pip install --upgrade pip
+COPY requirements requirements
 RUN pip install -r requirements/docker.txt
 
+# copy project
 COPY app app
 COPY migrations migrations
-COPY dabl.py config.py ./
+COPY dabl.py config.py boot.sh ./
 
+# set permissions and execute shell script to start
 RUN ["chmod", "+x", "boot.sh"]
-
-EXPOSE 5000
-
-#CMD ["flask", "run", "--host", "0.0.0.0", "--port", "5000"]
 ENTRYPOINT ["sh", "./boot.sh"]
