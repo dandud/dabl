@@ -1,0 +1,16 @@
+id,name,type
+0,Created,Batch
+1,Primary Fermentation,Batch
+2,Secondary Fermentation,Batch
+3,Bulk Aging,Batch
+4,Bottled,Batch
+5,Scrapped,Batch
+6,Consumed,Batch
+100,Clean,Vessel
+101,Dirty,Vessel
+102,In Use,Vessel
+199,Out of Service,Vessel
+200,Created,Container
+201,Scrapped,Container
+202,Consumed,Container
+1000,New,

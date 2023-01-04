@@ -116,3 +116,13 @@
 
 ### **2022.12.31** ###
 * Modifications to docker config and requirements to support postgres
+
+### **2023.01.01** ###
+* Modifications to docker config
+
+### **2023.01.02** ###
+* Modifications to docker config
+* init db updates, requirement updates
+
+### **2023.01.03** ###
+* begin work on csv import for db initialization data

@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 import click
+import pandas as pd
 from flask_migrate import Migrate, upgrade
 from app import create_app, db
 from app.models import *
@@ -36,30 +37,32 @@ def test(test_names):
 
 @app.cli.command("initdb_data")
 def initdb_data():
-    """Init database with data for testing / demo"""
+    """Init database with base data"""
 
-    format_dt = '%Y-%m-%d %H:%M:%S'
+    with open('app/data/import/users.csv', 'r', encoding="utf-8") as file:
+        data_df = pd.read_csv(file)
+    data_df.to_sql('users', con=db.engine, index=False, index_label='id', if_exists='replace')
 
-    db.session.add(Brewtype(name = 'Mead'))
-    db.session.add(Brewtype(name = 'Wine'))
-    db.session.add(Brewtype(name = 'Cider'))
-    db.session.add(Brewtype(name = 'Beer'))
+    with open('app/data/import/statuses.csv', 'r', encoding="utf-8") as file:
+        data_df = pd.read_csv(file)
+    data_df.to_sql('statuses', con=db.engine, index=False, index_label='id', if_exists='replace')
 
-    db.session.add(Brewstyle(name = 'Traditional'))
-    db.session.add(Brewstyle(name = 'Melomel'))
-    db.session.add(Brewstyle(name = 'Apple'))
-    db.session.add(Brewstyle(name = 'Grape'))
+    with open('app/data/import/brewtypes.csv', 'r', encoding="utf-8") as file:
+        data_df = pd.read_csv(file)
+    data_df.to_sql('brewtypes', con=db.engine, index=False, index_label='id', if_exists='replace')
 
-    db.session.add(Status(id = 0, name ='Created', type ='Batch'))
-    db.session.add(Status(id = 1, name ='Primary Fermentation', type ='Batch'))
-    db.session.add(Status(id = 2, name ='Secondary Fermentation', type ='Batch'))
-    db.session.add(Status(id = 3, name ='Bulk Aging', type ='Batch'))
-    db.session.add(Status(id = 4, name ='Bottled', type ='Batch'))
-    db.session.add(Status(id = 1000, name ='New'))
-    db.session.add(User(id = 1, username = 'dabl'))
-    db.session.add(User(id = 2, username = 'dan'))
+    with open('app/data/import/brewstyles.csv', 'r', encoding="utf-8") as file:
+        data_df = pd.read_csv(file)
+    data_df.to_sql('brewstyles', con=db.engine, index=False, index_label='id', if_exists='replace')
 
-    db.session.commit()
+    with open('app/data/import/containertypes.csv', 'r', encoding="utf-8") as file:
+        data_df = pd.read_csv(file)
+    data_df.to_sql('containertypes', con=db.engine, index=False, index_label='id', if_exists='replace')
+    
+    with open('app/data/import/measurementtypes.csv', 'r', encoding="utf-8") as file:
+        data_df = pd.read_csv(file)
+    data_df.to_sql('measurementtypes', con=db.engine, index=False, index_label='id', if_exists='replace')
+
 
     print("Database initialized with base framework")
 
