@@ -126,3 +126,7 @@
 
 ### **2023.01.03** ###
 * begin work on csv import for db initialization data
+* update to python 3.10.7
+* update all packages to current versions and update requirements file
+* refactor wtforms Required validators to InputRequired for new version
+* remove html5 module from any wtforms field inputs
