@@ -130,3 +130,4 @@
 * update all packages to current versions and update requirements file
 * refactor wtforms Required validators to InputRequired for new version
 * remove html5 module from any wtforms field inputs
+* update scripts to use FLASK_DEBUG instead of FLASK_ENV
