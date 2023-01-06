@@ -6,6 +6,7 @@ from flask_migrate import Migrate, upgrade
 from app import create_app, db
 from app.models import *
 from flask_qrcode import QRcode
+from app import helpers
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db, render_as_batch=True)
@@ -38,31 +39,11 @@ def test(test_names):
 @app.cli.command("initdb_data")
 def initdb_data():
     """Init database with base data"""
-
-    with open('app/data/import/users.csv', 'r', encoding="utf-8") as file:
-        data_df = pd.read_csv(file)
-    data_df.to_sql('users', con=db.engine, index=False, index_label='id', if_exists='replace')
-
-    with open('app/data/import/statuses.csv', 'r', encoding="utf-8") as file:
-        data_df = pd.read_csv(file)
-    data_df.to_sql('statuses', con=db.engine, index=False, index_label='id', if_exists='replace')
-
-    with open('app/data/import/brewtypes.csv', 'r', encoding="utf-8") as file:
-        data_df = pd.read_csv(file)
-    data_df.to_sql('brewtypes', con=db.engine, index=False, index_label='id', if_exists='replace')
-
-    with open('app/data/import/brewstyles.csv', 'r', encoding="utf-8") as file:
-        data_df = pd.read_csv(file)
-    data_df.to_sql('brewstyles', con=db.engine, index=False, index_label='id', if_exists='replace')
-
-    with open('app/data/import/containertypes.csv', 'r', encoding="utf-8") as file:
-        data_df = pd.read_csv(file)
-    data_df.to_sql('containertypes', con=db.engine, index=False, index_label='id', if_exists='replace')
     
-    with open('app/data/import/measurementtypes.csv', 'r', encoding="utf-8") as file:
-        data_df = pd.read_csv(file)
-    data_df.to_sql('measurementtypes', con=db.engine, index=False, index_label='id', if_exists='replace')
-
+    inittables = ('users', 'brewtypes','brewstyles','containertypes','measurementtypes')
+    
+    for table in inittables:
+        helpers.table_csv_import(table)
 
     print("Database initialized with base framework")
 
