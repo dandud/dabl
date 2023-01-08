@@ -131,3 +131,10 @@
 * refactor wtforms Required validators to InputRequired for new version
 * remove html5 module from any wtforms field inputs
 * update scripts to use FLASK_DEBUG instead of FLASK_ENV
+
+### **2023.01.05** ###
+* change csv import to use a function
+* updates to initdb_data cli function
+
+### **2023.01.07** ###
+* add csv export function
