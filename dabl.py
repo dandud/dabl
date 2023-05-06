@@ -89,3 +89,16 @@ def initdb_batch_data():
     db.session.commit()
 
     print("Database initialized with 3 demo batches")
+
+@app.cli.command("exportdb_data")
+def exportdb_data():
+    """Export data from all tables to csv files"""
+    
+    tables = db.engine.table_names()
+    
+    for table in tables:
+        if isinstance(table, str):
+            print('exporting ' + table)
+            helpers.table_csv_export(table)
+
+    print("Database tables exported to app/data/export")

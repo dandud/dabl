@@ -46,6 +46,6 @@ def table_csv_export (tablename:str, csvfile:str=None):
         filepath = 'app/data/export/' + tablename + '.csv'
     else:
         filepath = csvfile
-
-    data_df = pd.read_sql_table(tablename)
-    data_df.to_csv(csvfile)
+    print(tablename)
+    data_df = pd.read_sql_table(tablename, con=db.engine)
+    data_df.to_csv(csvfile, float_format=None)

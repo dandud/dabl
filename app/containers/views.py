@@ -6,7 +6,7 @@ from . import containers
 from .forms import ContainerAddForm, VesselMoveContentsForm, VesselUpdateStatusForm, VesselFillForm
 from datetime import datetime
 
-_label_base_url = "http://"+"192.168.1.101:5000"
+_label_base_url = "http://"+"dabl.local"
 
 @containers.route('/container_overview', methods=['GET', 'POST'])
 def all_containers():
@@ -95,6 +95,8 @@ def container_consume(container_id):
     else:
         flash('Container Consumption Failed.', 'danger')
         return redirect(url_for('containers.active_containers'))
+
+
 
 # @containers.route('/vessel_move_contents/<container_id>', methods=['GET', 'POST'])
 # def vessel_move_contents(container_id):

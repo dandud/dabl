@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import DefaultDict
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db, login_manager
+from . import db, login_manager, admin
+from flask_admin.contrib.sqla import ModelView
 from sqlalchemy import event
 from flask_login import UserMixin, AnonymousUserMixin
 
@@ -57,12 +58,17 @@ class Brewtype(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
 
+    def __repr__(self):
+        return '<Brewtype %r>' % (self.name)
+
 
 class Brewstyle(db.Model):
     __tablename__ = 'brewstyles'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
 
+    def __repr__(self):
+        return '<Brewstyle %r>' % (self.name)
 
 class Status(db.Model):
     __tablename__ = 'statuses'
@@ -70,6 +76,8 @@ class Status(db.Model):
     name = db.Column(db.String(32))
     type = db.Column(db.String(32))
 
+    def __repr__(self):
+        return '<Status %r>' % (self.name)
 
 class Engunit(db.Model):
     __tablename__ = 'engunits'
@@ -77,6 +85,8 @@ class Engunit(db.Model):
     name = db.Column(db.String(32))
     type = db.Column(db.String(32))
 
+    def __repr__(self):
+        return '<Engunit %r>' % (self.name)
 
 class Batch(db.Model):
     __tablename__ = 'batches'
@@ -101,6 +111,9 @@ class Batch(db.Model):
             now = datetime.now()
             age = now - self.time_start
             return str(age.days)
+        
+    def __repr__(self):
+        return '<Batch %r>' % (self.name)
 
 
 @event.listens_for(Batch, "after_insert")
@@ -135,12 +148,18 @@ class Measurement(db.Model):
     batch = db.relationship('Batch')
     measurmenttype_rel = db.relationship('Measurementtype')
 
+    def __repr__(self):
+        return '<Measurement %r>' % (self.name)
+
 
 class Measurementtype(db.Model):
     __tablename__ = 'measurementtypes'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
     eng_units = db.Column(db.String(32))
+
+    def __repr__(self):
+        return '<Measurementtype %r>' % (self.name)
 
 
 class Action(db.Model):
@@ -154,11 +173,17 @@ class Action(db.Model):
     batch = db.relationship('Batch')
     actiontype_rel = db.relationship('Actiontype')
 
+    def __repr__(self):
+        return '<Action %r>' % (self.name)
+
 
 class Actiontype(db.Model):
     __tablename__ = 'actiontypes'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
+
+    def __repr__(self):
+        return '<Actiontype %r>' % (self.name)
 
 
 class Component(db.Model):
@@ -173,11 +198,17 @@ class Component(db.Model):
     componentclass_rel = db.relationship('Componentclass')
     componenttype_rel = db.relationship('Componenttype')
 
+    def __repr__(self):
+        return '<Component %r>' % (self.name)
+
 
 class Componentclass(db.Model):
     __tablename__ = 'componentclasses'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
+
+    def __repr__(self):
+        return '<Componentclass %r>' % (self.name)
 
 
 class Componenttype(db.Model):
@@ -185,11 +216,17 @@ class Componenttype(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
 
+    def __repr__(self):
+        return '<Componenttype %r>' % (self.name)
+
 
 class Location(db.Model):
     __tablename__ = 'locations'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
+
+    def __repr__(self):
+        return '<Location %r>' % (self.name)
 
 
 class Containertype(db.Model):
@@ -197,6 +234,9 @@ class Containertype(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
     volume_max = db.Column(db.Float)
+
+    def __repr__(self):
+        return '<Containertype %r>' % (self.name)
 
 
 class Container(db.Model):
@@ -223,6 +263,9 @@ class Container(db.Model):
             now = datetime.now()
             age = now - self.time_created
             return str(age.days)
+    
+    def __repr__(self):
+        return '<Container %r>' % (self.name)
 
 
 class Vesseltype(db.Model):
@@ -230,6 +273,9 @@ class Vesseltype(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
     volume_max = db.Column(db.Float)
+
+    def __repr__(self):
+        return '<Vesseltype %r>' % (self.name)
 
 
 class Vessel(db.Model):
@@ -248,6 +294,26 @@ class Vessel(db.Model):
     location = db.relationship('Location')
     vesseltype_rel = db.relationship('Vesseltype')
 
+    def __repr__(self):
+        return '<Vessel %r>' % (self.name)
+
+admin.add_view(ModelView(User,db.session))
+admin.add_view(ModelView(Role,db.session))
+admin.add_view(ModelView(Batch,db.session))
+admin.add_view(ModelView(Brewstyle,db.session))
+admin.add_view(ModelView(Brewtype,db.session))
+admin.add_view(ModelView(Engunit,db.session))
+admin.add_view(ModelView(Measurementtype,db.session))
+admin.add_view(ModelView(Measurement,db.session))
+admin.add_view(ModelView(Actiontype,db.session))
+admin.add_view(ModelView(Action,db.session))
+admin.add_view(ModelView(Componentclass,db.session))
+admin.add_view(ModelView(Componenttype,db.session))
+admin.add_view(ModelView(Component,db.session))
+admin.add_view(ModelView(Vesseltype,db.session))
+admin.add_view(ModelView(Vessel,db.session))
+admin.add_view(ModelView(Containertype,db.session))
+admin.add_view(ModelView(Container,db.session))
 
 @event.listens_for(Container, "after_insert")
 def insert_container_log(mapper, connection, target):
