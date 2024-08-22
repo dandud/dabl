@@ -130,7 +130,7 @@ dmypy.json
 .pyre/
 
 #export folder
-data/export/*
+app/data/export/*
 
 # database
 *.sqlite
