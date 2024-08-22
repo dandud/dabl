@@ -137,4 +137,3 @@ data/export/*
 
 # vs code configs
 *.code-workspace
-.gitignore
