@@ -129,8 +129,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+#export folder
+data/export/*
+
 # database
 *.sqlite
 
 # vs code configs
 *.code-workspace
+.gitignore
