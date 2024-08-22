@@ -40,7 +40,7 @@ def test(test_names):
 def initdb_data():
     """Init database with base data"""
     
-    inittables = ('users', 'brewtypes','brewstyles','containertypes','measurementtypes')
+    inittables = ('users', 'brewtypes','brewstyles','containertypes','measurementtypes', 'vesseltypes')
     
     for table in inittables:
         helpers.table_csv_import(table)
@@ -93,12 +93,21 @@ def initdb_batch_data():
 @app.cli.command("exportdb_data")
 def exportdb_data():
     """Export data from all tables to csv files"""
-    
+
+    #Get current time
+    time_now = datetime.now().strftime("%Y%m%d%H%M%S")
+    print(time_now)
+
+    export_folder = 'app/data/export/' + time_now + '/'
+
+    #create export folder
+    os.mkdir(export_folder)
+
     tables = db.engine.table_names()
     
     for table in tables:
         if isinstance(table, str):
             print('exporting ' + table)
-            helpers.table_csv_export(table)
+            helpers.table_csv_export(table, export_folder)
 
-    print("Database tables exported to app/data/export")
+    print("Database tables exported to " + export_folder)

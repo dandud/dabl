@@ -1,5 +1,7 @@
 import pandas as pd
 from . import db
+from datetime import datetime
+import os
 
 def table_exists (tablename:str):
     if not isinstance(tablename, str):
@@ -32,8 +34,9 @@ def table_csv_import (tablename:str, csvfile:str=None):
         data_df = pd.read_csv(file)
     data_df.to_sql(tablename, con=db.engine, index=False, index_label='id', if_exists='replace')
 
-def table_csv_export (tablename:str, csvfile:str=None):
-    '''export data into specified csv file. defaults to destination app\data\export unless file path specified as csvfile parameter'''
+def table_csv_export (tablename:str, export_path:str=None):
+    '''export data into specified csv file. defaults to destination app\data\export unless path specified as export_path parameter'''
+   
     if not isinstance(tablename, str):
         raise TypeError("provided table name is not string")
         return
@@ -42,10 +45,13 @@ def table_csv_export (tablename:str, csvfile:str=None):
         raise NameError("provided table name does not exist in database")
         return
 
-    if csvfile == None:
-        filepath = 'app/data/export/' + tablename + '.csv'
+    if export_path == None:
+        #set export folder
+        export_folder = 'app/data/export/'
     else:
-        filepath = csvfile
-    print(tablename)
+        export_folder = export_path
+    
+    csvfile = export_folder + tablename + '.csv'
+
     data_df = pd.read_sql_table(tablename, con=db.engine)
     data_df.to_csv(csvfile, float_format=None)
